@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+	<!-- CSS -->
+	<link href="../../../../styles/helper.css" rel="stylesheet">
+	<link href="../../../../styles/siteIcons.css" rel="stylesheet">
+	
+	<!-- JS -->
+	<script src="../../../../scripts/buildfire.js"></script>
+    <script src="../../../../scripts/angular/angular.min.js"></script>
+    <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
+   
+</head>
+<body>
+	<div class="holder">
+		<div class="item clearfix row">
+		    <div class="labels col-md-3 padding-right-zero pull-left">
+		        <span>Main Title</span>
+		    </div>
+		    <div class="main col-md-9 pull-right">
+				<input type="text" class="form-control" placeholder="Main Title">
+			</div>
+		</div>
+		<hr class="none">
+		<div class="item clearfix row">
+		    <div class="labels col-md-1 padding-right-zero pull-left">
+		        <span>Sort</span>
+		    </div>
+		    <div class="main col-md-11 pull-right">
+		        <div class="col-md-4 pull-left padding-left-zero">
+		            <div class="dropdown pull-left col-md-12 padding-zero" dropdown>
+		                <button class="btn btn-default text-left dropdown-toggle" data-toggle="dropdown" dropdown-toggle aria-expanded="true">
+		                    <span class="pull-left">Manually</span>
+		                    <span class="chevron icon-chevron-down pull-right"></span>
+		                </button>
+		                <ul class="dropdown-menu extended" role="menu">
+		                    <li>
+		                        <a tabindex="-1" class="transition-third">Option 1</a>
+		                    </li>
+							<li>
+		                        <a tabindex="-1" class="transition-third">Option 2</a>
+		                    </li>
+							<li>
+		                        <a tabindex="-1" class="transition-third">Option 3</a>
+		                    </li>
+		                </ul>
+		            </div>
+		        </div>
+		        <div class="col-md-8 pull-right padding-zero">
+		            <div class="col-md-8 pull-left padding-left-zero">
+		                <input type="text" class="form-control" placeholder="Search Item Name">
+		            </div>
+		            <div class="col-md-4 pull-right padding-zero">
+		                <a class="btn btn-primary pull-right stretch">Search</a>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<hr>
+		<div class="item clearfix row">
+		    <div class="main col-md-12 pull-right padding-left-zero row">
+		        <div class="pull-left inner-main col-xs-4 col-xs-offset-4 padding-zero">
+		            <a ng-href="" class="btn btn-success stretch">Add New Section</a>
+		        </div>
+		    </div>
+		</div>
+		<hr class="none">
+		<div class="draggable-list-view wide-list no-media has-btn-link" style="background:#fff;">
+          	<div class="d-item square-icon clearfix">
+				<span class="icon icon-menu pull-left"></span>
+                <div class="copy pull-right">
+                    <a class="text-primary"><span class="title ellipsis pull-left">Item Name</span></a>
+                    <div class="pull-right">
+                        <span class="btn-icon btn-delete-icon btn-danger"></span>
+                    </div>
+                </div>
+			</div>
+			<div class="d-item square-icon clearfix">
+				<span class="icon icon-menu pull-left"></span>
+                <div class="copy pull-right">
+                    <a class="text-primary"><span class="title ellipsis pull-left">Item Name</span></a>
+                    <div class="pull-right">
+                        <span class="btn-icon btn-delete-icon btn-danger"></span>
+                    </div>
+                </div>
+			</div>
+			<div class="d-item square-icon clearfix">
+				<span class="icon icon-menu pull-left"></span>
+                <div class="copy pull-right">
+                    <a class="text-primary"><span class="title ellipsis pull-left">Item Name</span></a>
+                    <div class="pull-right">
+                        <span class="btn-icon btn-delete-icon btn-danger"></span>
+                    </div>
+                </div>
+			</div>
+			<div class="d-item square-icon clearfix">
+				<span class="icon icon-menu pull-left"></span>
+                <div class="copy pull-right">
+                    <a class="text-primary"><span class="title ellipsis pull-left">Item Name</span></a>
+                    <div class="pull-right">
+                        <span class="btn-icon btn-delete-icon btn-danger"></span>
+                    </div>
+                </div>
+			</div>
+        </div>
+
+		<!-- Remove This Code -->
+		<div class="REMOVE ME">
+			<hr class="none">
+			<hr class="none">
+			<hr>
+			<h3>Timer Item Details (Remove)</h3>
+			<hr class="none">
+		</div>
+		<!-- Remove above code -->
+		
+		<div class="item clearfix row">
+		    <div class="labels col-md-3 padding-right-zero pull-left">
+		        <span>Item Title</span>
+		    </div>
+		    <div class="main col-md-9 pull-right">
+				<input type="text" class="form-control" placeholder="Main Title">
+			</div>
+		</div>
+		<hr class="none">
+		<div class="item clearfix row">
+		    <div class="labels col-md-3 padding-right-zero pull-left">
+		        <span>Item Description</span>
+		    </div>
+		</div>
+		<hr class="none">
+		<div class="item clearfix row">
+			<div class="main col-md-12 pull-left">
+				<textarea class="form-control" placeholder="WYSIWYG"></textarea>
+			</div>
+		</div>
+		<hr class="none">
+		<div class="item clearfix row">
+		    <div class="labels col-md-3 padding-right-zero pull-left">
+		        <span>Item Title</span>
+		    </div>
+		    <div class="main col-md-9 pull-right">
+				<input type="text" class="form-control" placeholder="Main Title">
+			</div>
+		</div>
+		<hr class="none">
+		<div class="item clearfix row">
+		    <div class="labels col-md-3 padding-right-zero pull-left">
+		        <span>Timer</span>
+		    </div>
+		    <div class="main col-md-9 pull-right">
+				<div class="col-xs-4 pull-left padding-zero">
+					<div class="col-xs-5 pull-left padding-zero">
+						<input type="text" class="form-control" placeholder="12">
+					</div>
+					<div class="col-xs-5 pull-left margin-top-five">
+						<span>Hours</span>
+					</div>
+				</div>
+				<div class="col-xs-4 pull-left padding-zero">
+					<div class="col-xs-5 pull-left padding-zero">
+						<input type="text" class="form-control" placeholder="00">
+					</div>
+					<div class="col-xs-5 pull-left margin-top-five">
+						<span>Minutes</span>
+					</div>
+				</div>
+				<div class="col-xs-4 pull-left padding-zero">
+					<div class="col-xs-5 pull-left padding-zero">
+						<input type="text" class="form-control" placeholder="00">
+					</div>
+					<div class="col-xs-5 pull-left margin-top-five">
+						<span>Seconds</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr class="none">
+		<div class="item clearfix row">
+			<div class="col-md-3 pull-right">
+				<a class="btn btn-primary stretch">Done</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
