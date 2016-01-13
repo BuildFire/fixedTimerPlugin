@@ -3,7 +3,8 @@
 (function (angular) {
   angular.module('fixedTimerPluginWidget')
     .constant('TAG_NAMES', {
-      TIMER_INFO: 'timerInfo'
+      TIMER_INFO: 'timerInfo',
+      TIMER_ITEMS: 'timerItems'
     })
     .constant('STATUS_CODE', {
       INSERTED: 'inserted',
