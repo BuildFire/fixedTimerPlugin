@@ -4,7 +4,7 @@
             <span>Main Title</span>
         </div>
         <div class="main col-md-9 pull-right">
-            <input type="text" class="form-control" placeholder="Main Title">
+            <input type="text" class="form-control" placeholder="Main Title" ng-model = 'ContentHome.data.content.title' ng-change="ContentHome.SavedMainTitle()">
         </div>
     </div>
     <hr class="none">
@@ -15,19 +15,14 @@
         <div class="main col-md-11 pull-right">
             <div class="col-md-4 pull-left padding-left-zero">
                 <div class="dropdown pull-left col-md-12 padding-zero" dropdown>
-                    <button class="btn btn-default text-left dropdown-toggle" data-toggle="dropdown" dropdown-toggle aria-expanded="true">
-                        <span class="pull-left">Manually</span>
+                    <button class="btn btn-default text-left dropdown-toggle"
+                            data-toggle="dropdown" dropdown-toggle aria-expanded="true">
+                        <span class="pull-left"></span>
                         <span class="chevron icon-chevron-down pull-right"></span>
-                    </button>
+                    </button  >
                     <ul class="dropdown-menu extended" role="menu">
-                        <li>
-                            <a tabindex="-1" class="transition-third">Option 1</a>
-                        </li>
-                        <li>
-                            <a tabindex="-1" class="transition-third">Option 2</a>
-                        </li>
-                        <li>
-                            <a tabindex="-1" class="transition-third">Option 3</a>
+                        <li ng-repeat="sortType in ContentHome.sortTypeData">
+                            <a tabindex="-1"  class="transition-third" ng-click="SettingsHome.saveDefaultSortPrefrence(sortType)">{{sortType}}</a>
                         </li>
                     </ul>
                 </div>
