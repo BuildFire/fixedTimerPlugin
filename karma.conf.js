@@ -36,7 +36,9 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'widget/**/*.js': ['coverage']
+            'widget/**/*.js': ['coverage'],
+            'content/**/*.js': ['coverage'],
+            'control/**/!(js)/*.js': ['coverage']
         },
         plugins: [
             'karma-phantomjs-launcher',
