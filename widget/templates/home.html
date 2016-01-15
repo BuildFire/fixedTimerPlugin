@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="content-editor clearfix" ng-if=" WidgetHome.description">
-    <p>{{ WidgetHome.description}}</p>
+    <p ng-bind-html = "WidgetHome.safeHtml(WidgetHome.description)"></p>
     </div>
     <div class="timer">
       <h1>3<span class="unit">h</span></h1>
@@ -54,10 +54,10 @@
     </div>
     <div class="btn-holder margin-top-ten margin-bottom-twenty">
       <a class="btn btn-success">Start Timer</a>
-      <a class="btn btn-warning">Pause Timer</a>
-      <a class="btn btn-success">Resume</a>
-      <a class="btn btn-danger">Silence and Reset</a>
-      <a class="text text-danger margin-top-five">Reset Timer</a>
+      <!--<a class="btn btn-warning">Pause Timer</a>-->
+      <!--<a class="btn btn-success">Resume</a>-->
+      <!--<a class="btn btn-danger">Silence and Reset</a>-->
+      <!--<a class="text text-danger margin-top-five">Reset Timer</a>-->
     </div>
   </div>
 </div>

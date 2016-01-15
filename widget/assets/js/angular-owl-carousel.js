@@ -125,8 +125,15 @@
 							$element.append(clone[1]);
 						});
 					}
-
 					$element.owlCarousel(options);
+					$element.click(function () {
+						$('.item-carousel span').removeClass('text-primary');
+						$(this).addClass('text-primary');
+
+						var slide = $(this).attr('data-position');
+						$element.trigger('to.owl.carousel', [slide, 300, true]);
+					});
+
 					owlCarousel = $element.data('owlCarousel');
 				});
 			}

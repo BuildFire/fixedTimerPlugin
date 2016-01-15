@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('fixedTimerPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE) {
+    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce) {
         var WidgetHome = this;
         WidgetHome.data = null;
         WidgetHome.items =['item1', 'item2', 'item3', 'item4', 'item5', 'item6','item1', 'item2', 'item3', 'item4', 'item5', 'item6'];
@@ -32,6 +32,12 @@
           getTimerItems();
         };
 
+        WidgetHome.safeHtml = function (html) {
+          if (html)
+            return $sce.trustAsHtml(html);
+        };
+
+
         /**
          * init() function invocation to fetch previously saved user's data from datastore.
          */
@@ -56,7 +62,7 @@
         var onUpdateCallback = function (event) {
 
           setTimeout(function () {
-            if (event && event.data) {
+            if (event) {
               console.log("hiiiiiiiiiiiiiiiii",event)
               switch (event.tag) {
 
@@ -69,11 +75,9 @@
                     WidgetHome.data.content = {};
                   break;
                 case TAG_NAMES.TIMER_ITEMS:
-                   // if(event.data){
-
-                   WidgetHome.allItems = event.data;
-                  console.log("hiiiiiiiiiiiiiiiii2222",event)
-                   // }
+                 WidgetHome.allItems = $.grep( WidgetHome.allItems, function(e, i){
+                    return e.id !== event.id;
+                  });
                   break;
               }
               $scope.$digest();

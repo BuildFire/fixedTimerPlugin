@@ -44,8 +44,8 @@
           var onUpdateFn = Buildfire.datastore.onUpdate(function (event) {
             if (!event) {
               return deferred.notify(new Error({
-                code: STATUS_CODE.UNDEFINED_EVENT,
-                message: STATUS_MESSAGES.UNDEFINED_EVENT
+                code: STATUS_CODE.UNDEFINED_DATA,
+                message: STATUS_MESSAGES.UNDEFINED_DATA
               }), true);
             } else {
               return deferred.notify(event);
