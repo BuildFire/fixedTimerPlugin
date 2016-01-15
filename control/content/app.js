@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular,buildfire) {
-    angular.module('fixedTimerPluginContent', ['ngRoute', 'ui.bootstrap', 'ui.tinymce'])
+    angular.module('fixedTimerPluginContent', ['ngRoute', 'ui.bootstrap', 'ui.tinymce', 'timerModals'])
         //injected ngRoute for routing
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider

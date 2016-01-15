@@ -133,6 +133,23 @@
                         }
                     });
                     return deferred.promise;
+                },
+                delete: function (id, tagName) {
+                    var deferred = $q.defer();
+                    if (typeof id == 'undefined') {
+                        return deferred.reject(new Error(MESSAGES.ERROR.ID_NOT_DEFINED));
+                    }
+                    Buildfire.datastore.delete(id, tagName, function (err, result) {
+                        if (err) {
+                            return deferred.reject(err);
+                        }
+                        else if (result) {
+                            return deferred.resolve(result);
+                        } else {
+                            return deferred.reject(new Error(MESSAGES.ERROR.NOT_FOUND));
+                        }
+                    });
+                    return deferred.promise;
                 }
             }
         }])

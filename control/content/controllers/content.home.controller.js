@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
     angular
         .module('fixedTimerPluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'STATUS_CODE', 'TAG_NAMES', 'MESSAGES', 'DataStore', 'Location', '$timeout',
-            function ($scope, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, Location, $timeout) {
+        .controller('ContentHomeCtrl', ['$scope', 'Modals', 'STATUS_CODE', 'TAG_NAMES', 'MESSAGES', 'DataStore', 'Location', '$timeout',
+            function ($scope, Modals, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, Location, $timeout) {
                 console.log('inside content home controller ----------------->');
                 var ContentHome = this;
                 var tmrDelay = null;
@@ -78,6 +78,27 @@
                 };
                 ContentHome.init();
                 /*INIT CALL END*/
+
+                /**
+                 * ContentHome.removeListItem() used to delete an item from people list
+                 * @param _index tells the index of item to be deleted.
+                 */
+                ContentHome.removeListItem = function (_index) {
+                    var item = ContentHome.items[_index];
+                    Modals.removePopupModal(item).then(function (data) {
+                        // Deleting post having id as postId
+                        var success = function (result) {
+                            console.log('inside success of delete item and result is: ', result);
+                            ContentHome.items.splice(_index, 1);
+                        };
+                        var error = function (err) {
+                            console.log('inside error of delete items and error is: ', err);
+                        };
+                        DataStore.delete(item.id, TAG_NAMES.TIMER_ITEMS).then(success, error);
+                    }, function (err) {
+                        console.log('Error is: ', err);
+                    });
+                };
 
                 /*SAVED DATA CALL START*/
                 ContentHome.saveData = function (newObj, tag) {
