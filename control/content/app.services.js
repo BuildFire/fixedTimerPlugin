@@ -9,7 +9,7 @@
             };
             return Buildfire;
         }])
-        .factory("DataStore", ['Buildfire', '$q', 'STATUS_CODE', 'STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, STATUS_MESSAGES) {
+        .factory("DataStore", ['Buildfire', '$q', 'STATUS_CODE', 'MESSAGES','STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, MESSAGES, STATUS_MESSAGES) {
             return {
                 get: function (_tagName) {
                     var deferred = $q.defer();
@@ -22,15 +22,15 @@
                     });
                     return deferred.promise;
                 },
-                save: function (_item, _tagName) {
+                getById: function (_id, _tagName) {
                     var deferred = $q.defer();
-                    if (typeof _item == 'undefined') {
+                    if (typeof _id == 'undefined') {
                         return deferred.reject(new Error({
-                            code: STATUS_CODE.UNDEFINED_DATA,
-                            message: STATUS_MESSAGES.UNDEFINED_DATA
+                            code: STATUS_CODE.UNDEFINED_ID,
+                            message: STATUS_MESSAGES.UNDEFINED_ID
                         }));
                     }
-                    Buildfire.datastore.save(_item, _tagName, function (err, result) {
+                    Buildfire.datastore.getById(_id, _tagName, function (err, result) {
                         if (err) {
                             return deferred.reject(err);
                         } else if (result) {
@@ -85,7 +85,66 @@
                         }
                     });
                     return deferred.promise;
+                },
+                save: function (_item, _tagName) {
+                    var deferred = $q.defer();
+                    if (typeof _item == 'undefined') {
+                        return deferred.reject(new Error({
+                            code: STATUS_CODE.UNDEFINED_DATA,
+                            message: STATUS_MESSAGES.UNDEFINED_DATA
+                        }));
+                    }
+                    Buildfire.datastore.save(_item, _tagName, function (err, result) {
+                        if (err) {
+                            return deferred.reject(err);
+                        } else if (result) {
+                            return deferred.resolve(result);
+                        }
+                    });
+                    return deferred.promise;
+                },
+                onUpdate: function () {
+                    var deferred = $q.defer();
+                    var onUpdateFn = Buildfire.datastore.onUpdate(function (data) {
+                        if (!data) {
+                            return deferred.notify(new Error({
+                                code: STATUS_CODE.UNDEFINED_DATA,
+                                message: STATUS_MESSAGES.UNDEFINED_DATA
+                            }), true);
+                        } else {
+                            return deferred.notify(event);
+                        }
+                    });
+                    return deferred.promise;
+                },
+                search: function (options, tagName) {
+                    var deferred = $q.defer();
+                    if (!tagName) {
+                        return deferred.reject(new Error(MESSAGES.ERROR.TAG_NOT_DEFINED));
+                    }
+                    Buildfire.datastore.search(options, tagName, function (err, result) {
+                        if (err) {
+                            return deferred.reject(err);
+                        }
+                        else if (result) {
+                            return deferred.resolve(result);
+                        } else {
+                            return deferred.reject(new Error(MESSAGES.ERROR.NOT_FOUND));
+                        }
+                    });
+                    return deferred.promise;
                 }
             }
+        }])
+        .factory('Location', [function () {
+            var _location = window.location;
+            return {
+                goTo: function (path) {
+                    _location.href = path;
+                },
+                goToHome: function () {
+                    _location.href = _location.href.substr(0, _location.href.indexOf('#'));
+                }
+            };
         }])
 })(window.angular, window.buildfire);
