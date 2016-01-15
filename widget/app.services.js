@@ -41,11 +41,11 @@
         },
         onUpdate: function () {
           var deferred = $q.defer();
-          var onUpdateFn = Buildfire.datastore.onUpdate(function (data) {
-            if (!data) {
+          var onUpdateFn = Buildfire.datastore.onUpdate(function (event) {
+            if (!event) {
               return deferred.notify(new Error({
-                code: STATUS_CODE.UNDEFINED_DATA,
-                message: STATUS_MESSAGES.UNDEFINED_DATA
+                code: STATUS_CODE.UNDEFINED_EVENT,
+                message: STATUS_MESSAGES.UNDEFINED_EVENT
               }), true);
             } else {
               return deferred.notify(event);

@@ -1,57 +1,45 @@
-<script type="text/javascript" charset="utf-8">
-  $(function () {
-    var slides = $('.item-carousel .item').length;
+<!--<script type="text/javascript" charset="utf-8">-->
+  <!--$(function () {-->
+    <!--var slides = $('.item-carousel .item').length;-->
 
-    // Slider needs at least 2 slides or you'll get an error.
-    if (slides > 1) {
-      $('.item-carousel').owlCarousel({
-        loop: false,
-        nav: false,
-        dots: false,
-        items: 4,
-        center: true
-      });
+    <!--// Slider needs at least 2 slides or you'll get an error.-->
+    <!--if (slides > 1) {-->
+      <!--$('.item-carousel').owlCarousel({-->
+        <!--loop: false,-->
+        <!--nav: false,-->
+        <!--dots: false,-->
+        <!--items: 4,-->
+        <!--center: true-->
+      <!--});-->
 
-      // Generate Positions
-      $('.item-carousel .owl-item').each(function () {
-        var index = $(this).index();
-        $(this).find('p').attr('data-position', index);
-      });
+      <!--// Generate Positions-->
+      <!--$('.item-carousel .owl-item').each(function () {-->
+        <!--var index = $(this).index();-->
+        <!--$(this).find('span').attr('data-position', index);-->
+      <!--});-->
 
-      // Jump To Position
-      var owl = $('.item-carousel');
-      owl.owlCarousel();
+      <!--// Jump To Position-->
+      <!--var owl = $('.item-carousel');-->
+      <!--owl.owlCarousel();-->
 
-      $('.item-carousel p').click(function () {
-        $('.item-carousel p').removeClass('text-primary');
-        $(this).addClass('text-primary');
+      <!--$('.item-carousel span').click(function () {-->
+        <!--$('.item-carousel span').removeClass('text-primary');-->
+        <!--$(this).addClass('text-primary');-->
 
-        var slide = $(this).attr('data-position');
-        owl.trigger('to.owl.carousel', [slide, 300, true]);
-      });
-    }
-  })
-</script>
+        <!--var slide = $(this).attr('data-position');-->
+        <!--owl.trigger('to.owl.carousel', [slide, 300, true]);-->
+      <!--});-->
+    <!--}-->
+  <!--})-->
+<!--</script>-->
+
 <div class="holder padding-zero">
   <div class="fixed-timer text-center">
     <h3 class="title">{{WidgetHome.data.content.title || 'Select Skin Type'}}</h3>
 
     <div class="item-carousel">
-      <div class="item">
-        <p class="text-primary" data-position="1">
-          Item Title</p>
-      </div>
-      <div class="item">
-        <p>Item Title</p>
-      </div>
-      <div class="item">
-        <p>Item Title</p>
-      </div>
-      <div class="item">
-        <p>Item Title</p>
-      </div>
-      <div class="item">
-        <p>Item Title</p>
+      <div owl-carousel="WidgetHome.items">
+        <div class="item" ng-click="WidgetHome.testalert(index)">{{ item }}</div>
       </div>
     </div>
     <div class="content-editor clearfix">
