@@ -23,4 +23,14 @@
             NOT_ITEM_ARRAY: 'Array of Items not provided',
             ITEM_ARRAY_FOUND: 'Array of Items provided'
         })
+        .constant('MESSAGES', {
+            ERROR: {
+                NOT_FOUND: "No result found",
+                CALLBACK_NOT_DEFINED: "Callback is not defined",
+                ID_NOT_DEFINED: "Id is not defined",
+                DATA_NOT_DEFINED: "Data is not defined",
+                OPTION_REQUIRES: "Requires options",
+                TAG_NOT_DEFINED: "Tag is not defined"
+            }
+        })
 })(window.angular);

@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
     angular
         .module('fixedTimerPluginContent')
-        .controller('ContentHomeCtrl', ['$scope','STATUS_CODE','TAG_NAMES','DataStore','$timeout',
-            function ($scope, STATUS_CODE, TAG_NAMES, DataStore, $timeout) {
+        .controller('ContentHomeCtrl', ['$scope','STATUS_CODE','TAG_NAMES', 'MESSAGES','DataStore','$timeout',
+            function ($scope, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, $timeout) {
                 console.log('inside content home controller ----------------->');
                 var ContentHome = this;
                 var tmrDelay = null;
@@ -29,7 +29,7 @@
 
                 /*Update the Master data object*/
                 ContentHome.updateMasterItem = function(data){
-                    ContentHome.masterData = angular.copy(data);;
+                    ContentHome.masterData = angular.copy(data);
                 };
 
                 ContentHome.updateMasterItem(ContentHome.data);
@@ -62,15 +62,25 @@
                         }
                     };
                     DataStore.get(TAG_NAMES.TIMER_INFO).then(ContentHome.success, ContentHome.error);
+
+                        ContentHome.successCallback = function (result) {
+                            console.info('init success result:', result);
+                            if (result && result.length > 0) {
+                                ContentHome.items = result;
+                            }
+                        };
+                        ContentHome.errorCallback = function (err) {
+                            if (err && err.code !== STATUS_CODE.NOT_FOUND) {
+                                console.error('Error while getting data', err);
+                            }
+                        };
+                    DataStore.search({}, TAG_NAMES.TIMER_ITEMS).then(ContentHome.successCallback, ContentHome.errorCallback);
                 };
                 ContentHome.init();
                                         /*INIT CALL END*/
 
                                         /*SAVED DATA CALL START*/
                 ContentHome.saveData = function (newObj, tag) {
-                    if (typeof newObj === 'undefined') {
-                        return;
-                    }
                     ContentHome.success = function (result) {
                         console.info('Saved data result: ', result);
                         ContentHome.updateMasterItem(newObj);
@@ -78,7 +88,11 @@
                     ContentHome.error = function (err) {
                         console.error('Error while saving data : ', err);
                     };
-                    DataStore.save(newObj, tag).then(ContentHome.success, ContentHome.error);
+                    if (newObj == undefined)
+                        return;
+                    else {
+                        DataStore.save(newObj, tag).then(ContentHome.success, ContentHome.error);
+                    }
                 };
 
                 ContentHome.saveDataWithDelay = function (newObj) {
@@ -92,7 +106,8 @@
                         tmrDelay = setTimeout(function () {
                             ContentHome.saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.TIMER_INFO);
                         }, 500);
-                    }
+                    } else
+                        return;
                 };
                 $scope.$watch(function () {
                     return ContentHome.data;

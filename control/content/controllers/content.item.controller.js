@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
     angular
         .module('fixedTimerPluginContent')
-        .controller('ContentItemCtrl', ['$scope','STATUS_CODE','TAG_NAMES','DataStore','$timeout',
-            function ($scope, STATUS_CODE, TAG_NAMES, DataStore, $timeout) {
+        .controller('ContentItemCtrl', ['$scope','STATUS_CODE','TAG_NAMES', 'MESSAGES', 'DataStore','$timeout',
+            function ($scope, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, $timeout) {
                 var ContentItem = this;
                 ContentItem.item = {
                     data: {
@@ -26,12 +26,13 @@
 
                 /*Update the Master data object*/
                 ContentItem.updateMasterItem = function(data){
-                    ContentItem.masterData = angular.copy(data);;
+                    ContentItem.masterData = angular.copy(data);
                 };
 
                 ContentItem.updateMasterItem(ContentItem.item);
 
                 ContentItem.isUnchanged = function(data) {
+                    console.log('LLLLLLLLLLLLLLLLLLLL equals result:::::::',data, ContentItem.masterData, angular.equals(data, ContentItem.masterData));
                     return angular.equals(data, ContentItem.masterData);
                 };
 
@@ -42,7 +43,7 @@
                     }
                     ContentItem.success = function (result) {
                         ContentItem.Alldata = result;
-                        console.info('Saved data result: ', result);
+                        console.info('Saved data result inside item controller: ', result);
                         ContentItem.updateMasterItem(newObj);
                     };
                     ContentItem.error = function (err) {
@@ -57,14 +58,17 @@
                 };
 
                 ContentItem.saveDataWithDelay = function (newObj) {
+                    console.log('hello ::::::::::::::::::::',newObj);
                     if (newObj) {
                         if (ContentItem.isUnchanged(newObj)) {
                             return;
                         }
                         if (tmrDelay) {
                             clearTimeout(tmrDelay);
+                            console.log('-------------------> setTimeout of tmrDelay inside if');
                         }
                         tmrDelay = setTimeout(function () {
+                            console.log('-------------------> setTimeout of tmrDelay');
                             if(ContentItem.item.data.title && ContentItem.item.data.timer) {
                                 ContentItem.saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.TIMER_ITEMS);
                             }
