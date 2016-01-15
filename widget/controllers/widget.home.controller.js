@@ -7,7 +7,7 @@
       function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE) {
         var WidgetHome = this;
         WidgetHome.data = null;
-        WidgetHome.items = [];
+        WidgetHome.items =['item1', 'item2', 'item3', 'item4', 'item5', 'item6','item1', 'item2', 'item3', 'item4', 'item5', 'item6'];
         WidgetHome.busy = false;
 
         var getTimerItems = function () {
@@ -50,10 +50,14 @@
         };
 
         var onUpdateCallback = function (event) {
+          console.log("hiiiiiiiiiiiiiiiii",event)
           setTimeout(function () {
-            if (event && event.tag) {
-              switch (event.tag) {
+            if (event && event.data) {
+
+              switch (event.data) {
+
                 case TAG_NAMES.TIMER_INFO:
+
                   WidgetHome.data = event.data;
                   if (!WidgetHome.data.design)
                     WidgetHome.data.design = {};
@@ -61,7 +65,6 @@
                     WidgetHome.data.content = {};
                   break;
                 case TAG_NAMES.TIMER_ITEMS:
-
                   break;
               }
               $scope.$digest();
@@ -69,6 +72,12 @@
           }, 0);
         };
 
+        WidgetHome.testalert = function(test, id){
+
+       var a= $('.item-carousel span').removeClass('text-primary');
+        //  $('#'+id).addClass('text-primary');
+          console.log(test);
+        };
         /**
          * DataStore.onUpdate() is bound to listen any changes in datastore
          */
