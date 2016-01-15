@@ -120,8 +120,8 @@
 
 					for (var i in newItems) {
 						$transclude(function (clone, scope) {
-							scope.item = newItems[i];
-							scope.index = i
+							scope.item = newItems[i].data.data.title;
+							scope.data = newItems[i].data.data
 							$element.append(clone[1]);
 						});
 					}

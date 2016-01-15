@@ -37,19 +37,13 @@
   <div class="fixed-timer text-center">
     <h3 class="title">{{WidgetHome.data.content.title || 'Select Skin Type'}}</h3>
 
-    <div class="item-carousel">
-      <div owl-carousel="WidgetHome.items">
-        <div class="item" ng-click="WidgetHome.testalert(index)">{{ item }}</div>
+    <div class="item-carousel" ng-if="WidgetHome.allItems">
+      <div owl-carousel="WidgetHome.allItems">
+        <div class="item" ng-click="WidgetHome.testalert(data.description)">{{ item }}</div>
       </div>
     </div>
-    <div class="content-editor clearfix">
-      <p>Type 2 Skin: Very Sensitive</p>
-
-      <p>Burns easily</p>
-
-      <p>Tans minimally</p>
-
-      <p>Fair Skinned / caucasian</p>
+    <div class="content-editor clearfix" ng-if=" WidgetHome.description">
+    <p>{{ WidgetHome.description}}</p>
     </div>
     <div class="timer">
       <h1>3<span class="unit">h</span></h1>

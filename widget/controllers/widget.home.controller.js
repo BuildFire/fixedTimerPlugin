@@ -9,10 +9,13 @@
         WidgetHome.data = null;
         WidgetHome.items =['item1', 'item2', 'item3', 'item4', 'item5', 'item6','item1', 'item2', 'item3', 'item4', 'item5', 'item6'];
         WidgetHome.busy = false;
+        WidgetHome.allItems={};
 
         var getTimerItems = function () {
           Buildfire.spinner.show();
           var success = function (result) {
+                WidgetHome.allItems = result;
+                console.log("----------------", WidgetHome.allItems)
               Buildfire.spinner.hide();
             },
             error = function () {
@@ -33,6 +36,7 @@
          * init() function invocation to fetch previously saved user's data from datastore.
          */
         var init = function () {
+
           var success = function (result) {
               WidgetHome.data = result.data;
               if (!WidgetHome.data.content)
@@ -45,16 +49,16 @@
                 console.error('Error while getting data', err);
               }
             };
-
+          getTimerItems();
           DataStore.get(TAG_NAMES.TIMER_INFO).then(success, error);
         };
 
         var onUpdateCallback = function (event) {
-          console.log("hiiiiiiiiiiiiiiiii",event)
+
           setTimeout(function () {
             if (event && event.data) {
-
-              switch (event.data) {
+              console.log("hiiiiiiiiiiiiiiiii",event)
+              switch (event.tag) {
 
                 case TAG_NAMES.TIMER_INFO:
 
@@ -65,6 +69,11 @@
                     WidgetHome.data.content = {};
                   break;
                 case TAG_NAMES.TIMER_ITEMS:
+                   // if(event.data){
+
+                   WidgetHome.allItems = event.data;
+                  console.log("hiiiiiiiiiiiiiiiii2222",event)
+                   // }
                   break;
               }
               $scope.$digest();
@@ -72,11 +81,12 @@
           }, 0);
         };
 
-        WidgetHome.testalert = function(test, id){
+        WidgetHome.testalert = function(description, id){
 
        var a= $('.item-carousel span').removeClass('text-primary');
         //  $('#'+id).addClass('text-primary');
-          console.log(test);
+          console.log(description);
+          WidgetHome.description = description;
         };
         /**
          * DataStore.onUpdate() is bound to listen any changes in datastore
