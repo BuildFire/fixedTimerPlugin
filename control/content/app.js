@@ -15,6 +15,11 @@
                     controllerAs: 'ContentItem',
                     controller: 'ContentItemCtrl'
                 })
+                .when('/item/:itemId', {
+                    templateUrl: 'templates/timerItem.html',
+                    controllerAs: 'ContentItem',
+                    controller: 'ContentItemCtrl'
+                })
                 .otherwise('/');
         }])
 })(window.angular,window.buildfire);
