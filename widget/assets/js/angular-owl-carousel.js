@@ -120,13 +120,20 @@
 
 					for (var i in newItems) {
 						$transclude(function (clone, scope) {
-							scope.item = newItems[i];
-							scope.index = i
+							scope.item = newItems[i].data.data.title;
+							scope.data = newItems[i].data.data
 							$element.append(clone[1]);
 						});
 					}
-
 					$element.owlCarousel(options);
+					$element.click(function () {
+						$('.item-carousel span').removeClass('text-primary');
+						$(this).addClass('text-primary');
+
+						var slide = $(this).attr('data-position');
+						$element.trigger('to.owl.carousel', [slide, 300, true]);
+					});
+
 					owlCarousel = $element.data('owlCarousel');
 				});
 			}
