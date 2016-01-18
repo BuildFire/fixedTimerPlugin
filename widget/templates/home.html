@@ -46,16 +46,17 @@
     <p ng-bind-html = "WidgetHome.safeHtml(WidgetHome.description)"></p>
     </div>
     <div class="timer">
-      <h1>3<span class="unit">h</span></h1>
+      <h1 ng-if="WidgetHome.isCounterNegative">-</h1>
+      <h1>{{WidgetHome.counter|secondsToDateTime|date:"HH"}}<span class="unit">h</span></h1>
 
-      <h1>30<span class="unit">m</span></h1>
+      <h1>{{WidgetHome.counter|secondsToDateTime|date:"mm"}}<span class="unit">m</span></h1>
 
-      <h1>00<span class="unit">s</span></h1>
+      <h1>{{WidgetHome.counter|secondsToDateTime|date:"ss"}}<span class="unit">s</span></h1>
     </div>
     <div class="btn-holder margin-top-ten margin-bottom-twenty">
-      <a class="btn btn-success">Start Timer</a>
-      <!--<a class="btn btn-warning">Pause Timer</a>-->
-      <!--<a class="btn btn-success">Resume</a>-->
+      <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='stop'">Start Timer</a>
+      <a class="btn btn-warning" ng-click="WidgetHome.stop()" ng-if="WidgetHome.timerRunning=='start'">Pause Timer</a>
+      <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='pause'">Resume</a>
       <!--<a class="btn btn-danger">Silence and Reset</a>-->
       <!--<a class="text text-danger margin-top-five">Reset Timer</a>-->
     </div>

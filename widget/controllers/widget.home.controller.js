@@ -3,13 +3,59 @@
 (function (angular) {
   angular
     .module('fixedTimerPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce) {
+    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce','$timeout',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce, $timeout) {
         var WidgetHome = this;
         WidgetHome.data = null;
         WidgetHome.items =['item1', 'item2', 'item3', 'item4', 'item5', 'item6','item1', 'item2', 'item3', 'item4', 'item5', 'item6'];
         WidgetHome.busy = false;
         WidgetHome.allItems={};
+        WidgetHome.isCounterNegative = false;
+        WidgetHome.timerRunning = "stop";
+        WidgetHome.counter = 5;
+          WidgetHome.stopped = false;
+          WidgetHome.stoppedPlus =false;
+       //   var stopped, stoppedPlus;
+          WidgetHome.countdown = function(){
+              WidgetHome.timerRunning = "start";
+              if(!WidgetHome.isCounterNegative){
+                  WidgetHome.countdownNeg();
+              }
+              else {
+                  WidgetHome.countdownPlus();
+              }
+          };
+
+          WidgetHome.countdownNeg = function() {
+              // $scope.counterNegative = false
+              WidgetHome.stopped = $timeout(function() {
+                  console.log($scope.counter);
+                  WidgetHome.counter--;
+                  if( WidgetHome.counter==0){
+                      WidgetHome.isCounterNegative = true;
+                      WidgetHome.countdownPlus();
+                      return;
+                  }
+                  WidgetHome.countdownNeg();
+              }, 1000);
+            };
+
+          WidgetHome.countdownPlus = function() {
+               WidgetHome.stoppedPlus = $timeout(function() {
+                  console.log(WidgetHome.counter);
+                  WidgetHome.counter++;
+                  WidgetHome.countdownPlus();
+              }, 1000);
+           };
+          WidgetHome.stop = function(){
+              WidgetHome.timerRunning = "pause";
+              if(WidgetHome.isCounterNegative)
+                  $timeout.cancel(WidgetHome.stoppedPlus);
+              else
+                  $timeout.cancel(WidgetHome.stopped);
+          }
+
+
 
         var getTimerItems = function () {
           Buildfire.spinner.show();
