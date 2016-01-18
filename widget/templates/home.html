@@ -39,7 +39,7 @@
 
     <div class="item-carousel" ng-if="WidgetHome.allItems">
       <div owl-carousel="WidgetHome.allItems">
-        <div class="item" ng-click="WidgetHome.testalert(data.description)">{{ item }}</div>
+        <div class="item" ng-click="WidgetHome.selectTimer(data.description)">{{ item }}</div>
       </div>
     </div>
     <div class="content-editor clearfix" ng-if=" WidgetHome.description">
@@ -58,7 +58,7 @@
       <a class="btn btn-warning" ng-click="WidgetHome.stop()" ng-if="WidgetHome.timerRunning=='start'">Pause Timer</a>
       <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='pause'">Resume</a>
       <!--<a class="btn btn-danger">Silence and Reset</a>-->
-      <!--<a class="text text-danger margin-top-five">Reset Timer</a>-->
+      <a class="text text-danger margin-top-five" ng-click="WidgetHome.resetTimer()" ng-if="WidgetHome.timerRunning=='pause'">Reset Timer</a>
     </div>
   </div>
 </div>

@@ -15,7 +15,6 @@
         WidgetHome.counter = 5;
           WidgetHome.stopped = false;
           WidgetHome.stoppedPlus =false;
-       //   var stopped, stoppedPlus;
           WidgetHome.countdown = function(){
               WidgetHome.timerRunning = "start";
               if(!WidgetHome.isCounterNegative){
@@ -27,7 +26,6 @@
           };
 
           WidgetHome.countdownNeg = function() {
-              // $scope.counterNegative = false
               WidgetHome.stopped = $timeout(function() {
                   console.log($scope.counter);
                   WidgetHome.counter--;
@@ -47,6 +45,7 @@
                   WidgetHome.countdownPlus();
               }, 1000);
            };
+
           WidgetHome.stop = function(){
               WidgetHome.timerRunning = "pause";
               if(WidgetHome.isCounterNegative)
@@ -55,7 +54,12 @@
                   $timeout.cancel(WidgetHome.stopped);
           }
 
-
+          WidgetHome.resetTimer = function(){
+              WidgetHome.stop();
+              WidgetHome.timerRunning = "stop";
+              WidgetHome.isCounterNegative = false;
+              WidgetHome.counter = 5;
+          }
 
         var getTimerItems = function () {
           Buildfire.spinner.show();
@@ -131,11 +135,8 @@
           }, 0);
         };
 
-        WidgetHome.testalert = function(description, id){
+        WidgetHome.selectTimer = function(description, id){
 
-       var a= $('.item-carousel span').removeClass('text-primary');
-        //  $('#'+id).addClass('text-primary');
-          console.log(description);
           WidgetHome.description = description;
         };
         /**
