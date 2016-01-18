@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('fixedTimerPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce','$timeout',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce, $timeout) {
+    .controller('WidgetHomeCtrl', ['$scope', '$rootScope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce','$timeout',
+      function ($scope, $rootScope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce, $timeout) {
         var WidgetHome = this;
         WidgetHome.data = null;
         WidgetHome.items =['item1', 'item2', 'item3', 'item4', 'item5', 'item6','item1', 'item2', 'item3', 'item4', 'item5', 'item6'];
@@ -52,14 +52,14 @@
                   $timeout.cancel(WidgetHome.stoppedPlus);
               else
                   $timeout.cancel(WidgetHome.stopped);
-          }
+          };
 
           WidgetHome.resetTimer = function(){
               WidgetHome.stop();
               WidgetHome.timerRunning = "stop";
               WidgetHome.isCounterNegative = false;
               WidgetHome.counter = 5;
-          }
+          };
 
         var getTimerItems = function () {
           Buildfire.spinner.show();
@@ -93,12 +93,18 @@
          */
         var init = function () {
 
-          var success = function (result) {
+          /*declare the device width heights*/
+          $rootScope.deviceHeight = window.innerHeight;
+          $rootScope.deviceWidth = window.innerWidth;
+          $rootScope.backgroundImage = "";
+
+            var success = function (result) {
               WidgetHome.data = result.data;
               if (!WidgetHome.data.content)
                 WidgetHome.data.content = {};
               if (!WidgetHome.data.design)
                 WidgetHome.data.design = {};
+              $rootScope.backgroundImage = WidgetHome.data.design.backgroundImage ? WidgetHome.data.design.backgroundImage : "";
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -113,7 +119,7 @@
 
           setTimeout(function () {
             if (event) {
-              console.log("hiiiiiiiiiiiiiiiii",event)
+              console.log("hiiiiiiiiiiiiiiiii",event);
               switch (event.tag) {
 
                 case TAG_NAMES.TIMER_INFO:
@@ -123,6 +129,11 @@
                     WidgetHome.data.design = {};
                   if (!WidgetHome.data.content)
                     WidgetHome.data.content = {};
+                    if (!event.data.design.backgroundImage) {
+                        $rootScope.backgroundImage = ""
+                    } else {
+                        $rootScope.backgroundImage = event.data.design.backgroundImage;
+                    }
                   break;
                 case TAG_NAMES.TIMER_ITEMS:
                  WidgetHome.allItems = $.grep( WidgetHome.allItems, function(e, i){
@@ -130,7 +141,7 @@
                   });
                   break;
               }
-              $scope.$digest();
+              $rootScope.$digest();
             }
           }, 0);
         };
