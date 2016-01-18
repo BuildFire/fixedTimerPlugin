@@ -7,7 +7,6 @@
       function ($scope, $rootScope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce, $timeout) {
         var WidgetHome = this;
         WidgetHome.data = null;
-        WidgetHome.items =['item1', 'item2', 'item3', 'item4', 'item5', 'item6','item1', 'item2', 'item3', 'item4', 'item5', 'item6'];
         WidgetHome.busy = false;
         WidgetHome.allItems={};
         WidgetHome.isCounterNegative = false;
@@ -58,7 +57,7 @@
               WidgetHome.stop();
               WidgetHome.timerRunning = "stop";
               WidgetHome.isCounterNegative = false;
-              WidgetHome.counter = 5;
+              WidgetHome.counter =  WidgetHome.counterSetTime;
           };
 
         var getTimerItems = function () {
@@ -66,6 +65,7 @@
           var success = function (result) {
                 WidgetHome.allItems = result;
                 console.log("----------------", WidgetHome.allItems)
+                WidgetHome.selectTimer(WidgetHome.allItems[0].data.data);
               Buildfire.spinner.hide();
             },
             error = function () {
@@ -119,11 +119,8 @@
 
           setTimeout(function () {
             if (event) {
-              console.log("hiiiiiiiiiiiiiiiii",event);
               switch (event.tag) {
-
                 case TAG_NAMES.TIMER_INFO:
-
                   WidgetHome.data = event.data;
                   if (!WidgetHome.data.design)
                     WidgetHome.data.design = {};
@@ -139,6 +136,7 @@
                  WidgetHome.allItems = $.grep( WidgetHome.allItems, function(e, i){
                     return e.id !== event.id;
                   });
+                    WidgetHome.selectTimer(WidgetHome.allItems[0].data.data);
                   break;
               }
               $rootScope.$digest();
@@ -146,9 +144,35 @@
           }, 0);
         };
 
-        WidgetHome.selectTimer = function(description, id){
+        WidgetHome.covertToMS = function(data){
 
-          WidgetHome.description = description;
+            if(!data.hrs){
+                data.hrs = 0;
+            }
+            else{
+                data.hrs =Number(data.hrs)
+            }
+            if(!data.min){
+                data.min = 0;
+            }
+            else{
+                data.min =Number(data.min)
+            }
+            if(!data.sec){
+                data.sec = 0;
+            }
+            else{
+                data.sec =Number(data.sec)
+            }
+            console.log(data)
+            var timeInMS = data.hrs*3600+data.min*60+data.sec
+                return timeInMS;
+        }
+        WidgetHome.selectTimer = function(data){
+          console.log(WidgetHome.counter)
+          WidgetHome.description = data.description;
+          WidgetHome.counterSetTime = WidgetHome.covertToMS(data.timer);
+          WidgetHome.counter = WidgetHome.covertToMS(data.timer);
         };
         /**
          * DataStore.onUpdate() is bound to listen any changes in datastore
