@@ -84,7 +84,8 @@
                     }
                     ContentItem.success = function (result) {
                         ContentItem.isUpdating = false;
-                        ContentItem.Alldata = result;
+                        ContentItem.item = result.data;
+                        ContentItem.item.id = result.id;
                         console.info('Saved data result inside item controller: ', result);
                         ContentItem.updateMasterItem(newObj);
                     };
@@ -114,6 +115,7 @@
                     ContentItem.isItemValid = isValidItem(ContentItem.item.data);
                     if (!ContentItem.isUpdating && !ContentItem.isUnchanged(ContentItem.item) && ContentItem.isItemValid && ContentItem.item.data.title && ContentItem.item.data.timer) {
                             tmrDelayForPeoples = setTimeout(function () {
+                                console.log("AAAAAAAAAAAAA",newObj)
                                 if (newObj && newObj.id) {
                                     ContentItem.updateItemData(newObj.id, ContentItem.item, TAG_NAMES.TIMER_ITEMS);
                                 } else if (!ContentItem.isNewItemInserted) {

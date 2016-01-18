@@ -125,7 +125,10 @@
                  WidgetHome.allItems = $.grep( WidgetHome.allItems, function(e, i){
                     return e.id !== event.id;
                   });
-                    WidgetHome.selectTimer(WidgetHome.allItems[0].data.data);
+                    console.log("---------------", event)
+                    if(event.data) {
+                        WidgetHome.selectTimer(event.data.data);
+                    }
                   break;
               }
               $scope.$digest();
