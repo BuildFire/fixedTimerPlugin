@@ -114,9 +114,9 @@
                     console.log('OOOOOOOOOOOOOOOOOOOOOOOO', ContentItem.isNewItemInserted);
                     ContentItem.isItemValid = isValidItem(ContentItem.item.data);
                     console.log('before final if to save or update dataLLLLLLLLLLLLLLL', !ContentItem.isUpdating, !ContentItem.isUnchanged(ContentItem.item),ContentItem.isItemValid);
-                    if (!ContentItem.isUpdating && !ContentItem.isUnchanged(ContentItem.item) && ContentItem.isItemValid) {
+                    if (!ContentItem.isUpdating && !ContentItem.isUnchanged(ContentItem.item) && ContentItem.isItemValid && ContentItem.item.data.title && ContentItem.item.data.timer) {
                             tmrDelayForPeoples = setTimeout(function () {
-                                if (newObj && newObj.data && newObj.data.title) {
+                                if (newObj && newObj.id) {
                                     ContentItem.updateItemData(newObj.id, ContentItem.item.data, TAG_NAMES.TIMER_ITEMS);
                                 } else if (!ContentItem.isNewItemInserted) {
                                     ContentItem.saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.TIMER_ITEMS);

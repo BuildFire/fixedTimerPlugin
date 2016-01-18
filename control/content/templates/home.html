@@ -50,7 +50,7 @@
         <div ng-if="ContentHome.items.length" class="d-item square-icon clearfix" ng-repeat="item in ContentHome.items">
             <span class="icon icon-menu pull-left"></span>
             <div class="copy pull-right">
-                <a class="text-primary" href="#/item/{{item.id}}"><span class="title ellipsis pull-left">{{item.data.title}}</span></a>
+                <a class="text-primary" href="#/item/{{item.id}}"><span class="title ellipsis pull-left">{{item.data.data.title}}</span></a>
                 <div class="pull-right">
                     <span class="btn-icon btn-delete-icon btn-danger" ng-click="ContentHome.removeListItem($index)"></span>
                 </div>
