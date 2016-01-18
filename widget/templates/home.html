@@ -35,17 +35,17 @@
 
 <div class="holder padding-zero">
   <div class="fixed-timer text-center">
-    <h3 class="title">{{WidgetHome.data.content.title || 'Select Skin Type'}}</h3>
+    <h3 class="title whiteTheme">{{WidgetHome.data.content.title || 'Select Skin Type'}}</h3>
 
     <div class="item-carousel" ng-if="WidgetHome.allItems">
-      <div owl-carousel="WidgetHome.allItems">
-        <div class="item" ng-click="WidgetHome.selectTimer(data)">{{ item }}</div>
-      </div>
+      <span owl-carousel="WidgetHome.allItems">
+        <div class="item whiteTheme" ng-click="WidgetHome.selectTimer(data)">{{ item }}</div>
+      </span>
     </div>
     <div class="content-editor clearfix" ng-if=" WidgetHome.description">
-    <p ng-bind-html = "WidgetHome.safeHtml(WidgetHome.description)"></p>
+    <p class="whiteTheme" ng-bind-html = "WidgetHome.safeHtml(WidgetHome.description)"></p>
     </div>
-    <div class="timer">
+    <div class="timer whiteTheme" ng-if="WidgetHome.allItems.length">
       <h1 ng-if="WidgetHome.isCounterNegative">-</h1>
       <h1>{{WidgetHome.counter|secondsToDateTime|date:"HH"}}<span class="unit">h</span></h1>
 
@@ -53,7 +53,7 @@
 
       <h1>{{WidgetHome.counter|secondsToDateTime|date:"ss"}}<span class="unit">s</span></h1>
     </div>
-    <div class="btn-holder margin-top-ten margin-bottom-twenty">
+    <div class="btn-holder margin-top-ten margin-bottom-twenty" ng-if="WidgetHome.allItems.length">
       <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='stop'">Start Timer</a>
       <a class="btn btn-warning" ng-click="WidgetHome.stop()" ng-if="WidgetHome.timerRunning=='start'">Pause Timer</a>
       <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='pause'">Resume</a>
