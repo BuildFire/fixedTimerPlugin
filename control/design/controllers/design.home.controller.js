@@ -8,16 +8,23 @@
                 var DesignHome = this;
 
                 function init() {
-                    var itemInfo = {};
-                    itemInfo.backgroundImage = '';
-                    Buildfire.datastore.get(TAG_NAMES.FIXED_TIMER, function (err, data) {
+                    var itemInfo = {
+                        design: {
+                            backgroundImage: ''
+                        }
+                    };
+
+                    Buildfire.datastore.get(TAG_NAMES.TIMER_INFO, function (err, data) {
+                        console.log('datastore.get Timer Info-----------', data);
                         if (err) {
                             console.log('------------Error in Design of Fixed Timer Plugin------------', err);
                         }
                         else if (data && data.data) {
                             DesignHome.itemInfo = angular.copy(data.data);
-                            if (DesignHome.itemInfo.backgroundImage) {
-                                DesignHome.background.loadbackground(DesignHome.itemInfo.backgroundImage);
+                            if (!DesignHome.itemInfo.design)
+                                DesignHome.itemInfo.design = {};
+                            if (DesignHome.itemInfo && DesignHome.itemInfo.design && DesignHome.itemInfo.design.backgroundImage) {
+                                DesignHome.background.loadbackground(DesignHome.itemInfo.design.backgroundImage);
                             }
                             if (!$scope.$$phase && !$scope.$root.$$phase) {
                                 $scope.$digest();
@@ -32,14 +39,14 @@
 
                 DesignHome.background = new Buildfire.components.images.thumbnail("#background");
                 DesignHome.background.onChange = function (url) {
-                    DesignHome.itemInfo.backgroundImage = url;
+                    DesignHome.itemInfo.design.backgroundImage = url;
                     if (!$scope.$$phase && !$scope.$root.$$phase) {
                         $scope.$apply();
                     }
                 };
 
                 DesignHome.background.onDelete = function (url) {
-                    DesignHome.itemInfo.backgroundImage = "";
+                    DesignHome.itemInfo.design.backgroundImage = "";
                     if (!$scope.$$phase && !$scope.$root.$$phase) {
                         $scope.$apply();
                     }
@@ -49,7 +56,7 @@
                     return DesignHome.itemInfo;
                 }, function (newObj) {
                     if (newObj)
-                        Buildfire.datastore.save(DesignHome.itemInfo, TAG_NAMES.FIXED_TIMER, function (err, data) {
+                        Buildfire.datastore.save(DesignHome.itemInfo, TAG_NAMES.TIMER_INFO, function (err, data) {
                             if (err) {
                                 console.log("Error while saving data");
                             }
