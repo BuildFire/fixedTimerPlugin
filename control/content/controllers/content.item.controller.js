@@ -45,20 +45,30 @@
                 }
 
                 /*On click button done it redirects to home*/
-                ContentItem.done = function () {
-                      Location.goToHome();
+                ContentItem.done = function (newObj) {
+                    if (newObj && newObj.id) {
+                        ContentItem.updateItemData(newObj.id, ContentItem.item, TAG_NAMES.TIMER_ITEMS);
+                    }
                 };
 
                 ContentItem.updateItemData = function (id, data, tagName) {
                     var success = function (result) {
                         console.log('item updated successfully and updated item is: ', result);
                         ContentItem.isUpdating = false;
+                        buildfire.messaging.sendMessageToWidget({
+                            id: id,
+                            type: 'UpdateItem',
+                            data: ContentItem.item
+                        });
+                        Location.goToHome();
                     };
                     var error = function (err) {
                         ContentItem.isUpdating = false;
                         console.error('There was a problem saving your data');
+                        Location.goToHome();
                     };
-                    DataStore.update(id, data, tagName).then(success, error);
+                    if (id)
+                        DataStore.update(id, data, tagName).then(success, error);
                 };
 
                 ContentItem.masterData = {};
@@ -87,6 +97,12 @@
                         ContentItem.item = result.data;
                         ContentItem.item.id = result.id;
                         console.info('Saved data result inside item controller: ', result);
+                        buildfire.messaging.sendMessageToWidget({
+                            id: result.id,
+                            type: 'AddNewItem',
+                            data: ContentItem.item
+                        });
+
                         ContentItem.updateMasterItem(newObj);
                     };
                     ContentItem.error = function (err) {
@@ -103,58 +119,27 @@
                 };
 
                 function isValidItem(item) {
-                    console.log('Item called----------------------------is valid',item);
+                    console.log('Item called----------------------------is valid', item);
                     return item.title || item.timer;
                 }
+
                 var tmrDelayForPeoples = null;
                 ContentItem.saveDataWithDelay = function (newObj) {
                     console.log('hello ::::::::::::::::::::', newObj, ContentItem.item);
-                        clearTimeout(tmrDelayForPeoples);
-                        ContentItem.isUpdating = false;
+                    clearTimeout(tmrDelayForPeoples);
+                    ContentItem.isUpdating = false;
 //                    ContentItem.unchangedData = angular.equals(_data, ContentItem.item);
                     ContentItem.isItemValid = isValidItem(ContentItem.item.data);
                     if (!ContentItem.isUpdating && !ContentItem.isUnchanged(ContentItem.item) && ContentItem.isItemValid && ContentItem.item.data.title && ContentItem.item.data.timer) {
-                            tmrDelayForPeoples = setTimeout(function () {
-                                console.log("AAAAAAAAAAAAA",newObj)
-                                if (newObj && newObj.id) {
-                                    ContentItem.updateItemData(newObj.id, ContentItem.item, TAG_NAMES.TIMER_ITEMS);
-                                    buildfire.messaging.sendMessageToWidget({
-                                        id: newObj._id,
-                                        type: 'AddNewItem',
-                                        data: ContentItem.item
-                                    });
-
-                                $scope.$digest();
-                                } else if (!ContentItem.isNewItemInserted) {
-                                    ContentItem.saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.TIMER_ITEMS);
-                                }
-                            }, 300);
-                        }
-
-
-                    if (!ContentItem.isNewItemInserted) {
-
-                    }
-
-
-
-
-                    /*if (newObj) {
-                        if (ContentItem.isUnchanged(newObj)) {
-                            return;
-                        }
-                        if (tmrDelay) {
-                            clearTimeout(tmrDelay);
-                            console.log('-------------------> setTimeout of tmrDelay inside if');
-                        }
-                        tmrDelay = setTimeout(function () {
-                            console.log('-------------------> setTimeout of tmrDelay');
-                            if (ContentItem.item.data.title && ContentItem.item.data.timer) {
+                        tmrDelayForPeoples = setTimeout(function () {
+                            console.log("AAAAAAAAAAAAA", newObj);
+                            if (!ContentItem.isNewItemInserted && !newObj.id) {
                                 ContentItem.saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.TIMER_ITEMS);
                             }
-                        }, 500);
-                    }*/
+                        }, 300);
+                    }
                 };
+
                 $scope.$watch(function () {
                     return ContentItem.item;
                 }, ContentItem.saveDataWithDelay, true);

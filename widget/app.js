@@ -17,11 +17,13 @@
         }]).run([ '$rootScope',
             function ($rootScope) {
                 buildfire.messaging.onReceivedMessage = function (msg) {
-                    console.log('============',msg)
+                    console.log('============ inside on received message app.js widget',msg);
                     switch (msg.type) {
                         case 'AddNewItem':
                             $rootScope.$broadcast("TIMER_ADDED", msg);
-                            $rootScope.$apply();
+                            break;
+                        case 'UpdateItem':
+                            $rootScope.$broadcast("TIMER_UPDATED", msg);
                             break;
                     }
                 }
