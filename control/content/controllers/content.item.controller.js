@@ -46,7 +46,7 @@
 
                 /*On click button done it redirects to home*/
                 ContentItem.done = function () {
-                    Location.goToHome();
+                      Location.goToHome();
                 };
 
                 ContentItem.updateItemData = function (id, data, tagName) {
@@ -118,6 +118,13 @@
                                 console.log("AAAAAAAAAAAAA",newObj)
                                 if (newObj && newObj.id) {
                                     ContentItem.updateItemData(newObj.id, ContentItem.item, TAG_NAMES.TIMER_ITEMS);
+                                    buildfire.messaging.sendMessageToWidget({
+                                        id: newObj._id,
+                                        type: 'AddNewItem',
+                                        data: ContentItem.item
+                                    });
+
+                                $scope.$digest();
                                 } else if (!ContentItem.isNewItemInserted) {
                                     ContentItem.saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.TIMER_ITEMS);
                                 }
@@ -125,7 +132,9 @@
                         }
 
 
+                    if (!ContentItem.isNewItemInserted) {
 
+                    }
 
 
 

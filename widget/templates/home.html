@@ -37,12 +37,12 @@
   <div class="fixed-timer text-center">
     <h3 class="title whiteTheme">{{WidgetHome.data.content.title || 'Select Skin Type'}}</h3>
 
-    <div class="item-carousel" ng-if="WidgetHome.allItems">
+    <div class="item-carousel" ng-if="WidgetHome.allItems.length">
       <span owl-carousel="WidgetHome.allItems">
         <div class="item whiteTheme" ng-click="WidgetHome.selectTimer(data)">{{ item }}</div>
       </span>
     </div>
-    <div class="content-editor clearfix" ng-if=" WidgetHome.description">
+    <div class="content-editor clearfix" ng-if=" WidgetHome.description && WidgetHome.allItems.length">
     <p class="whiteTheme" ng-bind-html = "WidgetHome.safeHtml(WidgetHome.description)"></p>
     </div>
     <div class="timer whiteTheme" ng-if="WidgetHome.allItems.length">

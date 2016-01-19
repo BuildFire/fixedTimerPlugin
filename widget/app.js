@@ -14,5 +14,16 @@
             return function(seconds) {
                 return new Date(1970, 0, 1).setSeconds(seconds);
             };
-        }])
+        }]).run([ '$rootScope',
+            function ($rootScope) {
+                buildfire.messaging.onReceivedMessage = function (msg) {
+                    console.log('============',msg)
+                    switch (msg.type) {
+                        case 'AddNewItem':
+                            $rootScope.$broadcast("TIMER_ADDED", msg);
+                            $rootScope.$apply();
+                            break;
+                    }
+                }
+            }])
 })(window.angular);

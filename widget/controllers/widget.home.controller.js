@@ -133,19 +133,32 @@
                     }
                   break;
                 case TAG_NAMES.TIMER_ITEMS:
-                 WidgetHome.allItems = $.grep( WidgetHome.allItems, function(e, i){
-                    return e.id !== event.id;
-                  });
-                    console.log("---------------", event)
-                    if(event.data) {
-                        WidgetHome.selectTimer(event.data.data);
+                    if(event.id && !event.data) {
+                        WidgetHome.allItems = $.grep(WidgetHome.allItems, function (e, i) {
+                            return e.id !== event.id;
+                        });
                     }
+                    console.log("---------------", event)
+                    //if(event.data) {
+                    //    WidgetHome.selectTimer(event.data.data);
+                    //}
+                    //else
+                   // if(WidgetHome.allItems.length){
+                     //   WidgetHome.selectTimer(WidgetHome.allItems.data);
+                    //}
+                    $scope.$apply();
                   break;
               }
               $rootScope.$digest();
             }
           }, 0);
         };
+
+          $rootScope.$on('TIMER_ADDED', function (e, item) {
+              console.log("=============",WidgetHome.allItems,item)
+              WidgetHome.allItems.unshift(item);
+              console.log("=============",WidgetHome.allItems,item)
+          });
 
         WidgetHome.covertToMS = function(data){
 
