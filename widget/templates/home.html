@@ -77,8 +77,12 @@
       <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='stop'">Start Timer</a>
       <a class="btn btn-warning" ng-click="WidgetHome.stop()" ng-if="WidgetHome.timerRunning=='start'">Pause Timer</a>
       <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='pause'">Resume</a>
-      <!--<a class="btn btn-danger">Silence and Reset</a>-->
+      <a class="btn btn-danger" ng-click="WidgetHome.silenceReset()" ng-if="WidgetHome.isPlay">Silence and Reset</a>
       <a class="text text-danger margin-top-five" ng-click="WidgetHome.resetTimer()" ng-if="WidgetHome.timerRunning=='pause'">Reset Timer</a>
     </div>
   </div>
+    <audio controls autoplay loop style="display: none;" ng-if="WidgetHome.isPlay">
+        <source src="../widget/assets/sound/rt-5OClock_sm.mp3" type="audio/mpeg">
+    </audio>
+</div>
 </div>
