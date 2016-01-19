@@ -47,12 +47,19 @@
     </div>
     <hr class="none">
     <div class="draggable-list-view wide-list no-media has-btn-link" style="background:#fff;">
-        <div ng-if="ContentHome.items.length" class="d-item square-icon clearfix" ng-repeat="item in ContentHome.items">
-            <span class="icon icon-menu pull-left"></span>
-            <div class="copy pull-right">
-                <a class="text-primary" href="#/item/{{item.id}}"><span class="title ellipsis pull-left">{{item.data.data.title}}</span></a>
-                <div class="pull-right">
-                    <span class="btn-icon btn-delete-icon btn-danger" ng-click="ContentHome.removeListItem($index)"></span>
+        <div ui-sortable="ContentHome.itemsSortableOptions"
+             ng-model="ContentHome.items">
+            <div ng-if="ContentHome.items.length" class="d-item square-icon clearfix"
+                 ng-repeat="item in ContentHome.items">
+                <span class="icon icon-menu pull-left"></span>
+
+                <div class="copy pull-right">
+                    <a class="text-primary" href="#/item/{{item.id}}"><span class="title ellipsis pull-left">{{item.data.data.title}}</span></a>
+
+                    <div class="pull-right">
+                        <span class="btn-icon btn-delete-icon btn-danger"
+                              ng-click="ContentHome.removeListItem($index)"></span>
+                    </div>
                 </div>
             </div>
         </div>

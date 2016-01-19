@@ -27,6 +27,10 @@
                     "Manually", "Item Name A-Z", "Item Name Z-A", "Newest First", "Oldest First"
                 ];
 
+                ContentHome.itemsSortableOptions = {
+                    handle: '> .cursor-grab'
+                };
+
                 /*Update the Master data object*/
                 ContentHome.updateMasterItem = function (data) {
                     ContentHome.masterData = angular.copy(data);
