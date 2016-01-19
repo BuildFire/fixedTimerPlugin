@@ -42,7 +42,7 @@ describe('Unit : fixedTimerPlugin content services', function () {
                     }
                 });
                 this.datastore.update.and.callFake(function (_id, _item, _tagName, callback) {
-                    if (!_id || !typeof callback === 'function') {
+                    if (!_id || !(typeof callback === 'function')) {
                         callback('Error', null);
                     } else {
                         callback(null, 'Success');
@@ -56,7 +56,7 @@ describe('Unit : fixedTimerPlugin content services', function () {
                     }
                 });
                 this.datastore.search.and.callFake(function (options, _tagName, callback) {
-                    if (options, _tagName) {
+                    if (options && _tagName) {
                         callback(null, 'Success');
                     } else {
                         callback('Error', null);
@@ -212,7 +212,7 @@ describe('Unit : fixedTimerPlugin content services', function () {
             expect(result).toEqual('Success');
         });
 
-        /*it('DataStore.update should return error', function () {
+        it('DataStore.update should return error', function () {
             var result = ''
                 , success = function (response) {
                     result = response;
@@ -220,7 +220,8 @@ describe('Unit : fixedTimerPlugin content services', function () {
                 , error = function (err) {
                     result = 'Error';
                 };
-            DataStore.update(null).then(success, error);
+            var id;
+            DataStore.update(null, {}, 'tt').then(success, error);
             $rootScope.$digest();
             expect(result).toEqual('Error');
         });
@@ -232,10 +233,10 @@ describe('Unit : fixedTimerPlugin content services', function () {
                 , error = function (err) {
                     result = err;
                 };
-            DataStore.update({name: 'Daniel Hindi'}).then(success, error);
+            DataStore.update('123', {name: 'Daniel Hindi'}, TAG_NAMES.TIMER_INFO).then(success, error);
             $rootScope.$digest();
             expect(result).toEqual('Success');
-        });*/
+        });
         it('DataStore.onUpdate should return error', function () {
             var result = ''
                 , success = function (response) {
@@ -284,7 +285,7 @@ describe('Unit : fixedTimerPlugin content services', function () {
             $rootScope.$digest();
             expect(result).toEqual('Success');
         });
-        /*it('DataStore.search should return error', function () {
+        it('DataStore.search should return error', function () {
             var result = ''
                 , success = function (response) {
                     result = response;
@@ -292,7 +293,7 @@ describe('Unit : fixedTimerPlugin content services', function () {
                 , error = function (err) {
                     result = 'Error';
                 };
-            DataStore.search( null,null, null).then(success, error);
+            DataStore.search(null, TAG_NAMES.TIMER_INFO, null).then(success, error);
             $rootScope.$digest();
             expect(result).toEqual('Error');
         });
@@ -307,7 +308,7 @@ describe('Unit : fixedTimerPlugin content services', function () {
             DataStore.search( {}, TAG_NAMES.TIMER_INFO, null).then(success, error);
             $rootScope.$digest();
             expect(result).toEqual('Success');
-        });*/
+        });
     });
     describe('Unit : Location Factory', function () {
         var Location, $location, $rootScope;
