@@ -121,18 +121,25 @@
 					for (var i in newItems) {
 						$transclude(function (clone, scope) {
 							scope.item = newItems[i].data.data.title;
-							scope.data = newItems[i].data.data
+							scope.data = newItems[i].data.data;
+							scope.elementId =i;
+							console.log(".............", $element)
 							$element.append(clone[1]);
+							//$element.click(function () {
+							//	console.log(scope.elementId)
+							//});
+							//$element.find(scope.elementId).click(function () {
+							//	$('#'+scope.elementId).removeClass('text-primary');
+							//	$('#'+scope.elementId).addClass('text-primary');
+                            //
+							//	var slide = $(this).attr('data-position');
+							//	$element.trigger('to.owl.carousel', [slide, 300, true]);
+							//});
 						});
 					}
 					$element.owlCarousel(options);
-					$element.click(function () {
-						$('.item-carousel span').removeClass('text-primary');
-						$(this).addClass('text-primary');
+					console.log("aaaaaaaaaaaaa",$element)
 
-						var slide = $(this).attr('data-position');
-						$element.trigger('to.owl.carousel', [slide, 300, true]);
-					});
 
 					owlCarousel = $element.data('owlCarousel');
 				});

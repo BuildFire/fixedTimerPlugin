@@ -35,17 +35,37 @@
 
 <div class="holder padding-zero">
   <div class="fixed-timer text-center">
-    <h3 class="title whiteTheme">{{WidgetHome.data.content.title || 'Select Skin Type'}}</h3>
-
+    <h3 class="title ">{{WidgetHome.data.content.title || 'Select Skin Type'}}</h3>
+    <div class="item-carousel">
+      <!--<div class="item" ng-repeat = 'item in WidgetHome.allItems'>-->
+        <!--<p class="text-primary" data-position="1">{{item.data.data.title}}</p>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<p>Item title</p>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<p>Item title</p>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<p>Item title</p>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<p>Item title</p>-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="item-carousel" ng-if="WidgetHome.allItems.length">
-      <span owl-carousel="WidgetHome.allItems">
-        <div class="item whiteTheme" ng-click="WidgetHome.selectTimer(data)">{{ item }}</div>
+      <span owl-carousel="WidgetHome.allItems"   data-position="1"  >
+        <div class="item" id='{{elementId}}' ng-class="{'text-primary': elementId == WidgetHome.selectedTimerIndex}" ng-click="WidgetHome.selectTimer(data, elementId)">{{ item }}</div>
       </span>
     </div>
+
+      <!--<div ng-repeat="mbr in WidgetHome.items" ng-repeat-owl-carousel carousel-init="WidgetHome.carouselInitializer">-->
+        <!--<div>{{mbr}}</div>-->
+      <!--</div>-->
     <div class="content-editor clearfix" ng-if=" WidgetHome.description && WidgetHome.allItems.length">
-    <p class="whiteTheme" ng-bind-html = "WidgetHome.safeHtml(WidgetHome.description)"></p>
+    <p class="" ng-bind-html = "WidgetHome.safeHtml(WidgetHome.description)"></p>
     </div>
-    <div class="timer whiteTheme" ng-if="WidgetHome.allItems.length">
+    <div class="timer " ng-if="WidgetHome.allItems.length">
       <h1 ng-if="WidgetHome.isCounterNegative">-</h1>
       <h1>{{WidgetHome.counter|secondsToDateTime|date:"HH"}}<span class="unit">h</span></h1>
 
