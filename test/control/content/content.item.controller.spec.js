@@ -37,6 +37,13 @@ describe('Unit : fixedTimerPlugin content.item.controller.js', function () {
                         callback(null, 'Success');
                     }
                 });
+                this.datastore.getById.and.callFake(function (_id, _tagName, callback) {
+                    if (!_id || !typeof callback === 'function') {
+                        callback('Error', null);
+                    } else {
+                        callback(null, 'Success');
+                    }
+                });
             });
         }));
         beforeEach(inject(function (_$rootScope_, _$routeParams_, _DataStore_, _Buildfire_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_) {
@@ -82,6 +89,10 @@ describe('Unit : fixedTimerPlugin content.item.controller.js', function () {
         });
         it('DataStore.delete should exist and be a function', function () {
             expect(typeof DataStore.delete).toEqual('function');
+        });
+        it('$routeParams.itemId exist', function () {
+            $routeParams.itemId = '123';
+            ContentItem.getItem($routeParams.itemId);
         });
     });
 });
