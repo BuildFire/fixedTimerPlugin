@@ -12,6 +12,7 @@
                 WidgetHome.isCounterNegative = false;
                 WidgetHome.timerRunning = "stop";
                 WidgetHome.counter = 5;
+                WidgetHome.isPlay = false;
                 WidgetHome.stopped = false;
                 WidgetHome.stoppedPlus = false;
                 WidgetHome.countdown = function () {
@@ -29,6 +30,8 @@
                         console.log($scope.counter);
                         WidgetHome.counter--;
                         if (WidgetHome.counter == 0) {
+                            WidgetHome.isPlay = true;
+                            WidgetHome.timerRunning = '';
                             WidgetHome.isCounterNegative = true;
                             WidgetHome.countdownPlus();
                             return;
@@ -45,8 +48,17 @@
                     }, 1000);
                 };
 
+                WidgetHome.silenceReset = function () {
+                    WidgetHome.isPlay = false;
+                    WidgetHome.stop();
+                    WidgetHome.timerRunning = "stop";
+                    WidgetHome.isCounterNegative = false;
+                    WidgetHome.counter = WidgetHome.counterSetTime;
+                };
+
                 WidgetHome.stop = function () {
                     WidgetHome.timerRunning = "pause";
+                    WidgetHome.isPlay = false;
                     if (WidgetHome.isCounterNegative)
                         $timeout.cancel(WidgetHome.stoppedPlus);
                     else
