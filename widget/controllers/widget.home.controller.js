@@ -14,6 +14,7 @@
                 WidgetHome.counter = 5;
                 WidgetHome.stopped = false;
                 WidgetHome.stoppedPlus = false;
+                WidgetHome.selectedTimerIndex =0;
                 WidgetHome.countdown = function () {
                     WidgetHome.timerRunning = "start";
                     if (!WidgetHome.isCounterNegative) {
@@ -65,7 +66,7 @@
                     var success = function (result) {
                             WidgetHome.allItems = result;
                             console.log("----------------", WidgetHome.allItems);
-                            WidgetHome.selectTimer(WidgetHome.allItems[0].data.data);
+                            WidgetHome.selectTimer(WidgetHome.allItems[0].data.data, 1);
                             Buildfire.spinner.hide();
                         },
                         error = function () {
@@ -202,7 +203,8 @@
                     var timeInMS = data.hrs * 3600 + data.min * 60 + data.sec;
                     return timeInMS;
                 };
-                WidgetHome.selectTimer = function (data) {
+                WidgetHome.selectTimer = function (data, elementId) {
+                    WidgetHome.selectedTimerIndex = elementId;
                     console.log(WidgetHome.counter);
                     WidgetHome.description = data.description;
                     WidgetHome.counterSetTime = WidgetHome.covertToMS(data.timer);

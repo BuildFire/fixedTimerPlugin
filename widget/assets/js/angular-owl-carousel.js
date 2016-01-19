@@ -122,7 +122,7 @@
 						$transclude(function (clone, scope) {
 							scope.item = newItems[i].data.data.title;
 							scope.data = newItems[i].data.data;
-							scope.elementId =i;
+							scope.elementId =i+1;
 							console.log(".............", $element)
 							$element.append(clone[1]);
 							//$element.click(function () {

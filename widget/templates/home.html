@@ -54,8 +54,8 @@
       <!--</div>-->
     <!--</div>-->
     <div class="item-carousel" ng-if="WidgetHome.allItems.length">
-      <span owl-carousel="WidgetHome.allItems"   data-position="1"  >
-        <div class="item" id='{{elementId}}' ng-class="{'text-primary': elementId == WidgetHome.selectedTimerIndex}" ng-click="WidgetHome.selectTimer(data, elementId)">{{ item }}</div>
+      <span owl-carousel="WidgetHome.allItems"  >
+        <div class="item" id='{{elementId}}'    data-position="{{elementId}}" ng-class="{'text-primary': elementId == WidgetHome.selectedTimerIndex}" ng-click="WidgetHome.selectTimer(data, elementId)">{{ item }}</div>
       </span>
     </div>
 
