@@ -78,7 +78,9 @@
                     var success = function (result) {
                             WidgetHome.allItems = result;
                             console.log("----------------", WidgetHome.allItems);
-                            WidgetHome.selectTimer(WidgetHome.allItems[0].data.data, 1);
+                            if(WidgetHome.allItems.length) {
+                                WidgetHome.selectTimer(WidgetHome.allItems[0].data.data, 1);
+                            }
                             Buildfire.spinner.hide();
                         },
                         error = function () {
