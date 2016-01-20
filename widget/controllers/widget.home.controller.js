@@ -151,6 +151,7 @@
                                         WidgetHome.allItems = $.grep(WidgetHome.allItems, function (e, i) {
                                             return e.id !== event.id;
                                         });
+                                        WidgetHome.selectTimer(WidgetHome.allItems[0].data.data, 0);
                                     }
                                     console.log("---------------", event);
                                     //if(event.data) {
