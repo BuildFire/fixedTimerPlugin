@@ -35,7 +35,7 @@
                         var elapsedTimeInSec;
                         if(localStorageData && !localStorageData.isPause) {
                             elapsedTimeInSec = (new Date().getTime() - localStorageData.lastUpdatedTime)/1000;
-                            WidgetHome.counter = localStorageData.timerTime - elapsedTimeInSec;
+                            WidgetHome.counter = Math.ceil(localStorageData.timerTime - elapsedTimeInSec);
                             WidgetHome.timerObj = {'timerTime': WidgetHome.counter, 'lastUpdatedTime': new Date().getTime(), 'isPause': false};
                             localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
                         } else {
@@ -47,12 +47,6 @@
                         if (WidgetHome.counter <= 0) {
                             WidgetHome.isPlay = true;
                             WidgetHome.timerRunning = '';
-                            console.log('timer time is ++++++++++++++', WidgetHome.counter);
-                            WidgetHome.timerObj.timerTime = (WidgetHome.counter = WidgetHome.counter + 1);
-                            WidgetHome.timerObj.lastUpdatedTime = new Date().getTime();
-                            WidgetHome.timerObj.isPause = false;
-                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
-                            console.log('timer time is ++++++++++++++', WidgetHome.counter);
                             WidgetHome.isCounterNegative = true;
                             WidgetHome.countdownPlus();
                             return;
