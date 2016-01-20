@@ -219,11 +219,13 @@
                     return timeInMS;
                 };
                 WidgetHome.selectTimer = function (data, elementId) {
-                    WidgetHome.selectedTimerIndex = elementId;
-                    console.log(WidgetHome.counter);
-                    WidgetHome.description = data.description;
-                    WidgetHome.counterSetTime = WidgetHome.covertToMS(data.timer);
-                    WidgetHome.counter = WidgetHome.covertToMS(data.timer);
+                    if(WidgetHome.timerRunning!="start") {
+                        WidgetHome.selectedTimerIndex = elementId;
+                        console.log(WidgetHome.counter);
+                        WidgetHome.description = data.description;
+                        WidgetHome.counterSetTime = WidgetHome.covertToMS(data.timer);
+                        WidgetHome.counter = WidgetHome.covertToMS(data.timer);
+                    }
                 };
                 /**
                  * DataStore.onUpdate() is bound to listen any changes in datastore
