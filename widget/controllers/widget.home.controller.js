@@ -266,7 +266,7 @@
                     return timeInMS;
                 };
                 WidgetHome.selectTimer = function (data, elementId) {
-                    if(WidgetHome.timerRunning!="start") {
+                   if(WidgetHome.timerRunning!="start" && WidgetHome.timerRunning!="") {
                         WidgetHome.selectedTimerIndex = elementId;
                         console.log(WidgetHome.counter);
                         WidgetHome.description = data.description;
