@@ -16,6 +16,7 @@
                 WidgetHome.stopped = false;
                 WidgetHome.stoppedPlus = false;
                 WidgetHome.selectedTimerIndex =0;
+                WidgetHome.timerObj = {'timerTime': 0, 'lastUpdatedTime': 0, 'isPause': false};
                 WidgetHome.countdown = function () {
                     WidgetHome.timerRunning = "start";
                     if (!WidgetHome.isCounterNegative) {
@@ -29,10 +30,29 @@
                 WidgetHome.countdownNeg = function () {
                     WidgetHome.stopped = $timeout(function () {
                         console.log($scope.counter);
-                        WidgetHome.counter--;
-                        if (WidgetHome.counter == 0) {
+                        var localStorageData = localStorage.getItem('timerObject');
+                        localStorageData = localStorageData && JSON.parse(localStorageData);
+                        var elapsedTimeInSec;
+                        if(localStorageData && !localStorageData.isPause) {
+                            elapsedTimeInSec = (new Date().getTime() - localStorageData.lastUpdatedTime)/1000;
+                            WidgetHome.counter = localStorageData.timerTime - elapsedTimeInSec;
+                            WidgetHome.timerObj = {'timerTime': WidgetHome.counter, 'lastUpdatedTime': new Date().getTime(), 'isPause': false};
+                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                        } else {
+                            WidgetHome.timerObj.timerTime = (WidgetHome.counter = WidgetHome.counter - 1);
+                            WidgetHome.timerObj.lastUpdatedTime = new Date().getTime();
+                            WidgetHome.timerObj.isPause = false;
+                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                        }
+                        if (WidgetHome.counter <= 0) {
                             WidgetHome.isPlay = true;
                             WidgetHome.timerRunning = '';
+                            console.log('timer time is ++++++++++++++', WidgetHome.counter);
+                            WidgetHome.timerObj.timerTime = (WidgetHome.counter = WidgetHome.counter + 1);
+                            WidgetHome.timerObj.lastUpdatedTime = new Date().getTime();
+                            WidgetHome.timerObj.isPause = false;
+                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                            console.log('timer time is ++++++++++++++', WidgetHome.counter);
                             WidgetHome.isCounterNegative = true;
                             WidgetHome.countdownPlus();
                             return;
@@ -44,7 +64,23 @@
                 WidgetHome.countdownPlus = function () {
                     WidgetHome.stoppedPlus = $timeout(function () {
                         console.log(WidgetHome.counter);
-                        WidgetHome.counter++;
+                        var localStorageData = localStorage.getItem('timerObject');
+                        localStorageData = localStorageData && JSON.parse(localStorageData);
+                        var elapsedTimeInSec;
+                        if(localStorageData) {
+                            if(localStorageData.timerTime == 0 && localStorageData.isPause) {
+                                WidgetHome.timerObj.timerTime = (WidgetHome.counter = WidgetHome.counter + 1);
+                                WidgetHome.timerObj.lastUpdatedTime = new Date().getTime();
+                                WidgetHome.timerObj.isPause = false;
+                                localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                            } else {
+                                elapsedTimeInSec = (new Date().getTime() - localStorageData.lastUpdatedTime) / 1000;
+                                WidgetHome.counter = Math.abs(localStorageData.timerTime) + elapsedTimeInSec;
+                                WidgetHome.timerObj = {'timerTime': WidgetHome.counter, 'lastUpdatedTime': new Date().getTime(), 'isPause': false};
+                                localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                            }
+                        }
+//                        WidgetHome.counter++;
                         WidgetHome.countdownPlus();
                     }, 1000);
                 };
@@ -55,9 +91,14 @@
                     WidgetHome.timerRunning = "stop";
                     WidgetHome.isCounterNegative = false;
                     WidgetHome.counter = WidgetHome.counterSetTime;
+                    localStorage.removeItem('timerObject');
                 };
 
                 WidgetHome.stop = function () {
+                    var localStorageData = localStorage.getItem('timerObject');
+                    localStorageData = localStorageData && JSON.parse(localStorageData);
+                    localStorageData.isPause = true;
+                    localStorage.setItem('timerObject', JSON.stringify(localStorageData));
                     WidgetHome.timerRunning = "pause";
                     WidgetHome.isPlay = false;
                     if (WidgetHome.isCounterNegative)
@@ -71,6 +112,7 @@
                     WidgetHome.timerRunning = "stop";
                     WidgetHome.isCounterNegative = false;
                     WidgetHome.counter = WidgetHome.counterSetTime;
+                    localStorage.removeItem('timerObject');
                 };
 
                 var getTimerItems = function () {
