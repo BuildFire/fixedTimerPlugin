@@ -79,7 +79,7 @@
                             WidgetHome.allItems = result;
                             console.log("----------------", WidgetHome.allItems);
                             if(WidgetHome.allItems.length) {
-                                WidgetHome.selectTimer(WidgetHome.allItems[0].data.data, 1);
+                                WidgetHome.selectTimer(WidgetHome.allItems[0].data.data, 0);
                             }
                             Buildfire.spinner.hide();
                         },
@@ -87,7 +87,6 @@
                             Buildfire.spinner.hide();
                             console.log("Error fetching events");
                         };
-
                     DataStore.search({}, TAG_NAMES.TIMER_ITEMS).then(success, error);
                 };
 
@@ -186,6 +185,7 @@
                             WidgetHome.description = item.data && item.data.data && item.data.data.description;
                             WidgetHome.counterSetTime = item.data && item.data.data && item.data.data.timer && WidgetHome.covertToMS(item.data.data.timer);
                             WidgetHome.counter = item.data && item.data.data && item.data.data.timer && WidgetHome.covertToMS(item.data.data.timer);
+                            WidgetHome.selectTimer(item.data.data, index)
                             return false;
                         }
                     });

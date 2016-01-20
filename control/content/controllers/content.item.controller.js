@@ -81,8 +81,7 @@
                 ContentItem.updateMasterItem(ContentItem.item);
 
                 ContentItem.isUnchanged = function (data) {
-                    console.log('LLLLLLLLLLLLLLLLLLLL equals result:::::::', data, ContentItem.masterData, angular.equals(data, ContentItem.masterData));
-                    return angular.equals(data, ContentItem.masterData);
+                     return angular.equals(data, ContentItem.masterData);
                 };
 
                 /*SAVED DATA CALL START*/
