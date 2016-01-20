@@ -33,23 +33,31 @@
                         var localStorageData = localStorage.getItem('timerObject');
                         localStorageData = localStorageData && JSON.parse(localStorageData);
                         var elapsedTimeInSec;
-                        if(localStorageData && !localStorageData.isPause) {
-                            elapsedTimeInSec = (new Date().getTime() - localStorageData.lastUpdatedTime)/1000;
-                            WidgetHome.counter = Math.ceil(localStorageData.timerTime - elapsedTimeInSec);
-                            WidgetHome.timerObj = {'timerTime': WidgetHome.counter, 'lastUpdatedTime': new Date().getTime(), 'isPause': false};
-                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
-                        } else {
-                            WidgetHome.timerObj.timerTime = (WidgetHome.counter = WidgetHome.counter - 1);
-                            WidgetHome.timerObj.lastUpdatedTime = new Date().getTime();
-                            WidgetHome.timerObj.isPause = false;
-                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
-                        }
+                        var actualTimerTime;
                         if (WidgetHome.counter <= 0) {
                             WidgetHome.isPlay = true;
                             WidgetHome.timerRunning = '';
                             WidgetHome.isCounterNegative = true;
+                            WidgetHome.timerObj.timerTime = WidgetHome.counter - 1;
+                            WidgetHome.timerObj.lastUpdatedTime = new Date().getTime();
+                            WidgetHome.timerObj.isPause = false;
+                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                            WidgetHome.counter = Math.abs(WidgetHome.counter - 1);
                             WidgetHome.countdownPlus();
                             return;
+                        }
+                        if(localStorageData && !localStorageData.isPause) {
+                            elapsedTimeInSec = (new Date().getTime() - localStorageData.lastUpdatedTime)/1000;
+                            actualTimerTime = Math.ceil(localStorageData.timerTime - elapsedTimeInSec);
+                            WidgetHome.timerObj = {'timerTime': actualTimerTime, 'lastUpdatedTime': new Date().getTime(), 'isPause': false};
+                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                            WidgetHome.counter = Math.abs(actualTimerTime);
+                        } else {
+                            WidgetHome.timerObj.timerTime = WidgetHome.counter - 1;
+                            WidgetHome.timerObj.lastUpdatedTime = new Date().getTime();
+                            WidgetHome.timerObj.isPause = false;
+                            localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                            WidgetHome.counter = Math.abs(WidgetHome.counter - 1);
                         }
                         WidgetHome.countdownNeg();
                     }, 1000);
@@ -58,20 +66,23 @@
                 WidgetHome.countdownPlus = function () {
                     WidgetHome.stoppedPlus = $timeout(function () {
                         console.log(WidgetHome.counter);
+                        var actualTimerTime;
                         var localStorageData = localStorage.getItem('timerObject');
                         localStorageData = localStorageData && JSON.parse(localStorageData);
                         var elapsedTimeInSec;
                         if(localStorageData) {
                             if(localStorageData.timerTime == 0 && localStorageData.isPause) {
-                                WidgetHome.timerObj.timerTime = (WidgetHome.counter = WidgetHome.counter + 1);
+                                WidgetHome.timerObj.timerTime = WidgetHome.counter - 1;
                                 WidgetHome.timerObj.lastUpdatedTime = new Date().getTime();
                                 WidgetHome.timerObj.isPause = false;
                                 localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                                WidgetHome.counter = Math.abs(WidgetHome.counter - 1);
                             } else {
                                 elapsedTimeInSec = (new Date().getTime() - localStorageData.lastUpdatedTime) / 1000;
-                                WidgetHome.counter = Math.abs(localStorageData.timerTime) + elapsedTimeInSec;
-                                WidgetHome.timerObj = {'timerTime': WidgetHome.counter, 'lastUpdatedTime': new Date().getTime(), 'isPause': false};
+                                actualTimerTime = localStorageData.timerTime - elapsedTimeInSec;
+                                WidgetHome.timerObj = {'timerTime': actualTimerTime, 'lastUpdatedTime': new Date().getTime(), 'isPause': false};
                                 localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
+                                WidgetHome.counter = Math.abs(actualTimerTime);
                             }
                         }
 //                        WidgetHome.counter++;
