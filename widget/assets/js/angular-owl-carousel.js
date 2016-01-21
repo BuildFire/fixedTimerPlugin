@@ -132,12 +132,13 @@
 						});
 					}
 					$element.owlCarousel(options);
+					var owl = $element.owlCarousel(options);
 					console.log("aaaaaaaaaaaaa",scope.elementId)
 					$element.click(function (obj) {
 						/*var slide = $element.children("div")//.attr("dataposition");//find('.text-primery');
 						console.log("aaaaaaaaaaaaa",slide)
 						$element.trigger('to.owl.carousel', [$(obj.toElement, 300, true]);*/
-						$element.trigger('to.owl.carousel', [$(obj.toElement).attr('dataposition'), 300, true]);
+						owl.trigger('to.owl.carousel', [$(obj.toElement).attr('dataposition'), 300, true]);
 						console.log('clicked dataposition',$(obj.toElement).attr('dataposition'));
 					});
 
