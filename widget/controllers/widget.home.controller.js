@@ -126,10 +126,13 @@
                     localStorage.setItem('timerObject', JSON.stringify(localStorageData));
                     WidgetHome.timerRunning = "pause";
                     WidgetHome.isPlay = false;
-                    if (WidgetHome.isCounterNegative)
+                    if (WidgetHome.isCounterNegative) {
                         $timeout.cancel(WidgetHome.stoppedPlus);
-                    else
                         $timeout.cancel(WidgetHome.stopped);
+                    } else {
+                        $timeout.cancel(WidgetHome.stopped);
+                        $timeout.cancel(WidgetHome.stoppedPlus);
+                    }
                 };
 
                 WidgetHome.resetTimer = function () {
