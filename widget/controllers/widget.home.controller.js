@@ -218,6 +218,7 @@
                         WidgetHome.counter = Math.abs(actualTimerTime);
                         WidgetHome.description = localStorageData.itemDescription;
                         WidgetHome.selectedTimerIndex = localStorageData.itemId;
+                        WidgetHome.counterSetTime = localStorageData.itemDefaultTimer;
                         if(actualTimerTime <= 0) {
                             WidgetHome.timerRunning = "";
                             WidgetHome.isPlay = true;
