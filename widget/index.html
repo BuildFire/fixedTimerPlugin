@@ -1,93 +1,29 @@
 <!DOCTYPE html>
-<html>
-<head>    
+<html ng-app="fixedTimerPluginWidget">
+<head>
 	<!-- CSS -->
-	<link href="css/style.css" rel="stylesheet">
-	<link href="../../../../styles/helper.css" rel="stylesheet">
-	<link href="../../../../scripts/owlCarousel/owlCarousel.css" rel="stylesheet">   
-	
-	<!-- JS -->
-	<script src="../../../../scripts/buildfire.js"></script>
-    <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-	<script src="../../../../scripts/owlCarousel/owlCarousel.js"></script>
+	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="../../../styles/helper.css" rel="stylesheet">
+	<link href="../../../scripts/owlCarousel/owlCarousel.css" rel="stylesheet">
 
+	<!-- JS -->
+	<script src="../../../scripts/buildfire.js"></script>
+ 	<script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+	<script src="assets/js/owl.carousel.min.js"></script>
+	<script src="../../../scripts/angular/angular.min.js"></script>
+	<script src="../../../scripts/angular/angular-route.min.js"></script>
+	<script src="../../../scripts/angular/ui-bootstrap.min.js"></script>
+	<script src="assets/js/angular-owl-carousel.js"></script>
 	<!-- Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="filters.js"></script>
+	<script src="app.js"></script>
+	<script src="enums.js"></script>
+	<script src="app.services.js"></script>
+	<script src="controllers/widget.home.controller.js"></script>
 </head>
-<script type="text/javascript" charset="utf-8">
-	$(function(){
-		var slides = $('.item-carousel .item').length;
-		
-		// Slider needs at least 2 slides or you'll get an error.
-		if(slides > 1){
-			$('.item-carousel').owlCarousel({
-				loop:false,
-				nav:false,
-				dots:false,
-				items:4,
-				center:true
-			});	
-			
-			// Generate Positions
-			$('.item-carousel .owl-item').each(function(){
-				var index = $(this).index();
-				$(this).find('p').attr('data-position', index);
-			});
-			
-			// Jump To Position
-			var owl = $('.item-carousel');
-			owl.owlCarousel();
-			
-			$('.item-carousel p').click(function(){
-				$('.item-carousel p').removeClass('text-primary');
-				$(this).addClass('text-primary');
-				
-				var slide = $(this).attr('data-position');
-				owl.trigger('to.owl.carousel', [slide, 300, true]);
-			});
-		}
-	})
-</script>
-<body style="background:url(http://microstockinsider.com/files/freeimages/sunset_sky_DSC0244.preview.jpg); background-size:cover;">
-	<div class="holder padding-zero">
-		<div class="fixed-timer text-center">
-			<h3 class="title">Select Skin Type</h3>
-			<div class="item-carousel">
-				<div class="item">
-					<p class="text-primary" data-position="1">Item title</p>
-				</div>
-				<div class="item">
-					<p>Item title</p>
-				</div>
-				<div class="item">
-					<p>Item title</p>
-				</div>
-				<div class="item">
-					<p>Item title</p>
-				</div>
-				<div class="item">
-					<p>Item title</p>
-				</div>
-			</div>
-			<div class="content-editor clearfix">
-				<p>Type 2 Skin: Very Sensitive</p>
-				<p>Burns easily</p>
-				<p>Tans minimally</p>
-				<p>Fair Skinned / caucasian</p>
-			</div>
-			<div class="timer">
-				<h1>3<span class="unit">h</span></h1>
-				<h1>30<span class="unit">m</span></h1>
-				<h1>00<span class="unit">s</span></h1>
-			</div>
-			<div class="btn-holder margin-top-ten margin-bottom-twenty">
-				<a class="btn btn-success">Start Timer</a>
-				<a class="btn btn-warning">Pause Timer</a>
-				<a class="btn btn-success">Resume</a>
-				<a class="btn btn-danger">Silence and Reset</a>
-				<a class="text text-danger margin-top-five">Reset Timer</a>
-			</div>
-		</div>
-	</div>
+<body data-ng-attr-style="{{backgroundImage ? 'background: url(' + (backgroundImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover !important;': 'background: white'}}">
+
+<div class="slide content no-background" ng-view=""></div>
 </body>
 </html>

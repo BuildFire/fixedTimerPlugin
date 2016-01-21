@@ -1,0 +1,88 @@
+<!--<script type="text/javascript" charset="utf-8">-->
+  <!--$(function () {-->
+<!--//    var slides = $('.item-carousel .item').length;-->
+<!--//-->
+<!--//    // Slider needs at least 2 slides or you'll get an error.-->
+<!--//    if (slides > 1) {-->
+<!--//      $('.item-carousel').owlCarousel({-->
+<!--//        loop: false,-->
+<!--//        nav: false,-->
+<!--//        dots: false,-->
+<!--//        items: 4,-->
+<!--//        center: true-->
+<!--//      });-->
+<!--//-->
+<!--//      // Generate Positions-->
+<!--//      $('.item-carousel .owl-item').each(function () {-->
+<!--//        var index = $(this).index();-->
+<!--//        $(this).find('span').attr('data-position', index);-->
+<!--//      });-->
+<!--//-->
+<!--//      // Jump To Position-->
+      <!--var owl = $('.item-carousel');-->
+     <!--//owl.owlCarousel();-->
+
+      <!--$('.item-carousel span').click(function () {-->
+<!--//        $('.item-carousel span').removeClass('text-primary');-->
+<!--//        $(this).addClass('text-primary');-->
+
+        <!--var slide = $(this).attr('data-position');-->
+        <!--owl.trigger('to.owl.carousel', [1, 300, true]);-->
+      <!--});-->
+
+  <!--})-->
+<!--</script>-->
+
+<div class="holder padding-zero">
+  <div class="fixed-timer text-center">
+    <h3 class="title ">{{WidgetHome.data.content.title || 'Select Skin Type'}}</h3>
+    <div class="item-carousel">
+      <!--<div class="item" ng-repeat = 'item in WidgetHome.allItems'>-->
+        <!--<p class="text-primary" data-position="1">{{item.data.data.title}}</p>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<p>Item title</p>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<p>Item title</p>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<p>Item title</p>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<p>Item title</p>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="item-carousel" ng-if="WidgetHome.allItems.length">
+      <span owl-carousel="WidgetHome.allItems"  >
+        <div class="item" id='{{elementId}}'    dataposition="{{elementId}}" ng-class="{'text-primary': elementId == WidgetHome.selectedTimerIndex}" ng-click="WidgetHome.selectTimer(data, elementId)">{{ item }}</div>
+      </span>
+    </div>
+
+      <!--<div ng-repeat="mbr in WidgetHome.items" ng-repeat-owl-carousel carousel-init="WidgetHome.carouselInitializer">-->
+        <!--<div>{{mbr}}</div>-->
+      <!--</div>-->
+    <div class="content-editor clearfix" ng-if=" WidgetHome.description && WidgetHome.allItems.length">
+    <p class="" ng-bind-html = "WidgetHome.safeHtml(WidgetHome.description)"></p>
+    </div>
+    <div class="timer " ng-if="WidgetHome.allItems.length">
+      <h1 ng-if="WidgetHome.isCounterNegative">-</h1>
+      <h1>{{WidgetHome.counter|secondsToDateTime|date:"HH"}}<span class="unit">h</span></h1>
+
+      <h1>{{WidgetHome.counter|secondsToDateTime|date:"mm"}}<span class="unit">m</span></h1>
+
+      <h1>{{WidgetHome.counter|secondsToDateTime|date:"ss"}}<span class="unit">s</span></h1>
+    </div>
+    <div class="btn-holder margin-top-ten margin-bottom-twenty" ng-if="WidgetHome.allItems.length">
+      <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='stop'">Start Timer</a>
+      <a class="btn btn-warning" ng-click="WidgetHome.stop()" ng-if="WidgetHome.timerRunning=='start'">Pause Timer</a>
+      <a class="btn btn-success" ng-click="WidgetHome.countdown()" ng-if="WidgetHome.timerRunning=='pause'">Resume</a>
+      <a class="btn btn-danger" ng-click="WidgetHome.silenceReset()" ng-if="WidgetHome.isPlay">Silence and Reset</a>
+      <a class="text text-danger margin-top-five" ng-click="WidgetHome.resetTimer()" ng-if="WidgetHome.timerRunning=='pause'">Reset Timer</a>
+    </div>
+  </div>
+    <audio controls autoplay loop style="display: none;" ng-if="WidgetHome.isPlay">
+        <source src="../widget/assets/sound/rt-5OClock_sm.mp3" type="audio/mpeg">
+    </audio>
+</div>
+</div>
