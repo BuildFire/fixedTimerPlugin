@@ -35,7 +35,7 @@
     <div class="main col-md-9 pull-right">
         <div class="col-xs-4 pull-left padding-zero">
             <div class="col-xs-5 pull-left padding-zero">
-                <input type="text" class="form-control" placeholder="12" ng-model = "ContentItem.item.data.timer.hrs">
+                <input type="number"  min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="12" ng-model = "ContentItem.item.data.timer.hrs">
             </div>
             <div class="col-xs-5 pull-left margin-top-five">
                 <span>Hours</span>
@@ -43,7 +43,7 @@
         </div>
         <div class="col-xs-4 pull-left padding-zero">
             <div class="col-xs-5 pull-left padding-zero">
-                <input type="text" class="form-control" placeholder="00" ng-model = "ContentItem.item.data.timer.min">
+                <input type="number"  min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  class="form-control" placeholder="00" ng-model = "ContentItem.item.data.timer.min">
             </div>
             <div class="col-xs-5 pull-left margin-top-five">
                 <span>Minutes</span>
@@ -51,7 +51,7 @@
         </div>
         <div class="col-xs-4 pull-left padding-zero">
             <div class="col-xs-5 pull-left padding-zero">
-                <input type="text" class="form-control" placeholder="00" ng-model = "ContentItem.item.data.timer.sec">
+                <input type="number" min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  class="form-control" placeholder="00" ng-model = "ContentItem.item.data.timer.sec">
             </div>
             <div class="col-xs-5 pull-left margin-top-five">
                 <span>Seconds</span>

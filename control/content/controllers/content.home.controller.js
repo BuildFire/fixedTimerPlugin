@@ -28,7 +28,11 @@
                 ];
 
                 ContentHome.itemsSortableOptions = {
-                    handle: '> .cursor-grab'
+                    handle: '> .cursor-grab',
+                    stop: function (event, ui) {
+                        console.log("+++++++++++++5",ContentHome.items)
+                        //ContentHome.saveData(ContentHome.items, TAG_NAMES.TIMER_ITEMS);
+                    }
                 };
 
                 /*Update the Master data object*/
@@ -69,6 +73,7 @@
 
                     ContentHome.successCallback = function (result) {
                         console.info('init success result:', result);
+                        console.log("+++++++++++++7",result)
                         if (result && result.length > 0) {
                             ContentHome.items = result;
                         }

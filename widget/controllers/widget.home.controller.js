@@ -265,11 +265,12 @@
 
                 $rootScope.$on('TIMER_ADDED', function (e, item) {
                     console.log("============= inside timer added", WidgetHome.allItems, item);
-                    WidgetHome.allItems.unshift(item);
+                    WidgetHome.allItems.push(item);
                     WidgetHome.description = item.data && item.data.data && item.data.data.description;
                     WidgetHome.counterSetTime = item.data && item.data.data && item.data.data.timer && WidgetHome.covertToMS(item.data.data.timer);
                     WidgetHome.counter = item.data && item.data.data && item.data.data.timer && WidgetHome.covertToMS(item.data.data.timer);
-                    console.log("=============", WidgetHome.allItems, item);
+                    console.log("=============", WidgetHome.allItems, item, WidgetHome.allItems.lastIndexOf(item));
+                    WidgetHome.selectTimer (item.data.data, WidgetHome.allItems.lastIndexOf(item))
                     $scope.$digest();
                 });
                 $rootScope.$on('TIMER_UPDATED', function (e, item) {

@@ -22,8 +22,8 @@
 	<script src="app.services.js"></script>
 	<script src="controllers/widget.home.controller.js"></script>
 </head>
-<body data-ng-attr-style="{{backgroundImage ? 'background: url(' + (backgroundImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover;': 'background: white'}}">
+<body data-ng-attr-style="{{backgroundImage ? 'background: url(' + (backgroundImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover !important;': 'background: white'}}">
 
-<div class="slide content" ng-view=""></div>
+<div class="slide content no-background" ng-view=""></div>
 </body>
 </html>
