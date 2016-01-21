@@ -34,7 +34,7 @@
                         localStorageData = localStorageData && JSON.parse(localStorageData);
                         var elapsedTimeInSec;
                         var actualTimerTime;
-                        if (WidgetHome.counter <= 0 || (localStorageData && localStorageData.timerTime <= 0)) {
+                        if (WidgetHome.counter <= 0) {
                             WidgetHome.isPlay = true;
                             WidgetHome.timerRunning = '';
                             WidgetHome.isCounterNegative = true;
