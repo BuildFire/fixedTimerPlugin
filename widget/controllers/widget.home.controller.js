@@ -56,6 +56,7 @@
                             localStorage.setItem('timerObject', JSON.stringify(WidgetHome.timerObj));
                             WidgetHome.counter = Math.abs(actualTimerTime);
                             if(actualTimerTime <= 0) {
+                                WidgetHome.isPlay = true;
                                 WidgetHome.timerRunning = '';
                                 WidgetHome.isCounterNegative = true;
                             }
@@ -213,8 +214,10 @@
                         WidgetHome.counter = Math.abs(actualTimerTime);
                         WidgetHome.description = localStorageData.itemDescription;
                         WidgetHome.selectedTimerIndex = localStorageData.itemId;
-                        if(actualTimerTime <= 0)
+                        if(actualTimerTime <= 0) {
                             WidgetHome.timerRunning = "";
+                            WidgetHome.isPlay = true;
+                        }
                         else
                             WidgetHome.timerRunning = "start";
                         WidgetHome.countdownNeg();
