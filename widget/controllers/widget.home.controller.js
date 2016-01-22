@@ -8,7 +8,7 @@
                 var WidgetHome = this;
                 WidgetHome.data = null;
                 WidgetHome.busy = false;
-                WidgetHome.allItems = {};
+                WidgetHome.allItems = [];
                 WidgetHome.isCounterNegative = false;
                 WidgetHome.timerRunning = "stop";
                 WidgetHome.counter = 5;
