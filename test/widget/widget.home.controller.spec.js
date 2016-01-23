@@ -82,11 +82,27 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
         });
 
         describe('init calling', function () {
-            it('DataStore.get should return success', function () {
+            it('DataStore.get should return success and actualTimerTime greater than zero', function () {
                 WidgetHome.allItems = [{data: {data: {title:'Item1', description: 'Item1 Description', timer:{hrs:'10', min: '2', sec: '2'}}}}];
                 var result = ''
                     , success = function (response) {
                         result = response;
+                        window.localStorage.setItem('timerObject', JSON.stringify({isPause: false}));
+                    }
+                    , error = function (err) {
+                        result = err;
+                    };
+                DataStore.get(TAG_NAMES.TIMER_INFO).then(success, error);
+                $rootScope.$digest();
+//                expect(result).toEqual('Success');
+            });
+
+            it('DataStore.get should return success and actualTimerTime less than zero', function () {
+                WidgetHome.allItems = [{data: {data: {title:'Item1', description: 'Item1 Description', timer:{hrs:'10', min: '2', sec: '2'}}}}];
+                var result = ''
+                    , success = function (response) {
+                        result = response;
+                        window.localStorage.setItem('timerObject', JSON.stringify({isPause: false, lastUpdatedTime: 1453483372281, timerTime:5}));
                     }
                     , error = function (err) {
                         result = err;
@@ -139,10 +155,11 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                 WidgetHome.silenceReset();
             });
         });
-        describe('WidgetHome.resetTimer calling', function () {
+        describe('WidgetHome.resetTimer calling with localStorage data', function () {
             it('localStorage exist', function () {
                 window.localStorage.setItem('timerObject', JSON.stringify({isPause: true}));
                 WidgetHome.resetTimer();
+                $rootScope.$digest();
             });
         });
     });
@@ -263,5 +280,6 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                 expect(result).toEqual('Error');
             });
         });
+
     });
 });
