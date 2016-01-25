@@ -25,6 +25,9 @@
                         case 'UpdateItem':
                             $rootScope.$broadcast("TIMER_UPDATED", msg);
                             break;
+                        case 'ArrangeItems':
+                            $rootScope.$broadcast("ITEMS_REARRANGE", msg);
+                            break;
                     }
                 }
             }])

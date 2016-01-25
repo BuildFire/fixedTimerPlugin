@@ -3,16 +3,18 @@
 (function (angular, buildfire) {
     angular
         .module('fixedTimerPluginContent')
-        .controller('ContentItemCtrl', ['$scope', '$routeParams', 'STATUS_CODE', 'TAG_NAMES', 'MESSAGES', 'DataStore', 'Location', '$timeout',
-            function ($scope, $routeParams, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, Location, $timeout) {
+        .controller('ContentItemCtrl', ['$scope', '$routeParams', 'RankOfLastItem', 'STATUS_CODE', 'TAG_NAMES', 'MESSAGES', 'DataStore', 'Location', '$timeout',
+            function ($scope, $routeParams, RankOfLastItem, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, Location, $timeout) {
                 var ContentItem = this;
+                var _rankOfLastItem = RankOfLastItem.getRank();
                 ContentItem.isUpdating = false;
                 ContentItem.isNewItemInserted = false;
                 var _data = {
                     data: {
                         "title": "",
                         "description": "<p></p>",
-                        "timer": ""
+                        "timer": "",
+                        "rank": _rankOfLastItem
                     }
                 };
                 var tmrDelay = null;
@@ -31,6 +33,7 @@
                         console.log('inside success of getting item details and result is: ', result);
                         ContentItem.item = result.data;
                         ContentItem.item.id = result.id;
+                        _data.rank = result.data.rank;
                         ContentItem.updateMasterItem(ContentItem.item);
                     };
                     var error = function (err) {
@@ -81,25 +84,46 @@
                 ContentItem.updateMasterItem(ContentItem.item);
 
                 ContentItem.isUnchanged = function (data) {
-                     return angular.equals(data, ContentItem.masterData);
+                    return angular.equals(data, ContentItem.masterData);
                 };
 
                 /*SAVED DATA CALL START*/
                 ContentItem.saveData = function (newObj, tag) {
-                    console.log('Save data called-----------------------------------');
+                    console.log('Save data called-----------------------------------', newObj);
                     ContentItem.isNewItemInserted = true;
                     if (typeof newObj === 'undefined') {
                         return;
                     }
+                    _rankOfLastItem = _rankOfLastItem + 10;
+                    newObj.data.rank = _rankOfLastItem;
                     ContentItem.success = function (result) {
                         ContentItem.isUpdating = false;
                         ContentItem.item = result.data;
                         ContentItem.item.id = result.id;
+                        ContentItem.item.data.rank = result.data.data.rank;
+                        RankOfLastItem.setRank(_rankOfLastItem);
+                        _data.rank = ContentItem.item.data.rank;
                         console.info('Saved data result inside item controller: ', result);
                         buildfire.messaging.sendMessageToWidget({
                             id: result.id,
                             type: 'AddNewItem',
                             data: ContentItem.item
+                        });
+                        DataStore.get(TAG_NAMES.TIMER_INFO).then(function (result) {
+                            console.log('result of getting timer info is::::::::::::::::', result);
+                            if (result && result.data && result.data.content)
+                                result.data.content.rankOfLastItem = _rankOfLastItem;
+                            else
+                                result.data.content = {rankOfLastItem: _rankOfLastItem};
+                            DataStore.save(result.data, TAG_NAMES.TIMER_INFO).then(function (result) {
+                                console.log('Result is::::::::: ', result);
+                            }, function (err) {
+                                console.log('error is: ', err);
+                            });
+                        }, function (err) {
+                            if (err) {
+                                console.error('There was a problem saving your data', err);
+                            }
                         });
 
                         ContentItem.updateMasterItem(newObj);
@@ -109,7 +133,7 @@
                         ContentItem.isNewItemInserted = false;
                         console.error('Error while saving data : ', err);
                     };
-                    console.log("----------------------", ContentItem.Alldata)
+                    console.log("----------------------", ContentItem.Alldata);
                     // if(ContentItem.Alldata.id){
                     //     DataStore.update(newObj, tag).then(ContentItem.success, ContentItem.error);
                     //  }else {
