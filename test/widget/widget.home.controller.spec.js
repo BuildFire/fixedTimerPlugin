@@ -260,7 +260,8 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                 WidgetHome = $injector.get('$controller')('WidgetHomeCtrl', {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
-                    Buildfire: Buildfire
+                    Buildfire: Buildfire,
+                    $rootScope : $rootScope
                 });
                 q = $q;
             });
@@ -282,4 +283,21 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
         });
 
     });
+
+
+    describe('WidgetHome.safeHtml(html)', function () {
+        it('should invoke when WidgetHome.safeHtml() method called', function () {
+            var html = '<div>HiTest</div>';
+            WidgetHome.safeHtml(html);
+        });
+    });
+    //
+    //describe('Test the WidgetHome.listeners calls', function () {
+    //    var data = {}
+    //    it('should invoke TIMER_ADDED when point have some values', function () {
+    //        var points = 5, callback = function (e, data) {
+    //        }
+    //        $rootScope.$broadcast('TIMER_ADDED', callback);
+    //    });
+    //});
 });

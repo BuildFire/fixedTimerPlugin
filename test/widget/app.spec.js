@@ -48,4 +48,59 @@ describe('Unit: fixedTimerPluginWidget widget app', function () {
             expect(result).toEqual(updatedUrl);
         });
     });
+
+    describe('calling the buildfire.messaging.onReceivedMessage for AddNewItem condition', function () {
+        var $rootScope;
+        beforeEach(module('fixedTimerPluginWidget'));
+        beforeEach(inject(function (_$rootScope_) {
+            $rootScope = _$rootScope_;
+        }));
+        var msg = {
+            type:'AddNewItem',
+            data:{
+                pointsToRedeem:5
+            }
+        };
+        it('it should pass when buildfire.messaging.onReceivedMessage', function () {
+            buildfire.messaging.onReceivedMessage(msg)
+            $rootScope.$apply();
+        });
+    });
+
+    describe('calling the buildfire.messaging.onReceivedMessage for UpdateItem condition', function () {
+        var $rootScope;
+        beforeEach(module('fixedTimerPluginWidget'));
+        beforeEach(inject(function (_$rootScope_) {
+            $rootScope = _$rootScope_;
+        }));
+        var msg = {
+            type:'UpdateItem',
+            data:{
+                pointsToRedeem:5
+            }
+        };
+        it('it should pass when buildfire.messaging.onReceivedMessage', function () {
+            buildfire.messaging.onReceivedMessage(msg)
+            $rootScope.$apply();
+        });
+    });
+
+
+    describe('calling the buildfire.messaging.onReceivedMessage for ArrangeItems condition', function () {
+        var $rootScope;
+        beforeEach(module('fixedTimerPluginWidget'));
+        beforeEach(inject(function (_$rootScope_) {
+            $rootScope = _$rootScope_;
+        }));
+        var msg = {
+            type:'ArrangeItems',
+            data:{
+                pointsToRedeem:5
+            }
+        };
+        it('it should pass when buildfire.messaging.onReceivedMessage', function () {
+            buildfire.messaging.onReceivedMessage(msg)
+            $rootScope.$apply();
+        });
+    });
 });
