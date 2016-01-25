@@ -112,7 +112,7 @@
                                 message: STATUS_MESSAGES.UNDEFINED_DATA
                             }), true);
                         } else {
-                            return deferred.notify(event);
+                            return deferred.notify(data);
                         }
                     });
                     return deferred.promise;
@@ -161,6 +161,17 @@
                 },
                 goToHome: function () {
                     _location.href = _location.href.substr(0, _location.href.indexOf('#'));
+                }
+            };
+        }])
+        .factory('RankOfLastItem', [function () {
+            var _rankOfLastItem;
+            return {
+                getRank: function () {
+                    return (_rankOfLastItem || 0);
+                },
+                setRank: function (value) {
+                    _rankOfLastItem = value;
                 }
             };
         }])

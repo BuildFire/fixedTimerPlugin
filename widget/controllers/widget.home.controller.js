@@ -8,7 +8,7 @@
                 var WidgetHome = this;
                 WidgetHome.data = null;
                 WidgetHome.busy = false;
-                WidgetHome.allItems = {};
+                WidgetHome.allItems = [];
                 WidgetHome.isCounterNegative = false;
                 WidgetHome.timerRunning = "stop";
                 WidgetHome.counter = 5;
@@ -162,7 +162,7 @@
                             Buildfire.spinner.hide();
                             console.log("Error fetching events");
                         };
-                    DataStore.search({}, TAG_NAMES.TIMER_ITEMS).then(success, error);
+                    DataStore.search({sort:{"data.rank": 1}}, TAG_NAMES.TIMER_ITEMS).then(success, error);
                 };
 
                 WidgetHome.loadMore = function () {
@@ -297,6 +297,10 @@
                     });
 //              $rootScope.$digest();
                     console.log("=============", WidgetHome.allItems, item);
+                });
+                $rootScope.$on('ITEMS_REARRANGE', function (e, item) {
+                    console.log('inside items rearrange event==========');
+                    getTimerItems();
                 });
 
                 WidgetHome.covertToMS = function (data) {

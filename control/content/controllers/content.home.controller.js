@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
     angular
         .module('fixedTimerPluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'Modals', 'STATUS_CODE', 'TAG_NAMES', 'MESSAGES', 'DataStore', 'Location', '$timeout',
-            function ($scope, Modals, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, Location, $timeout) {
+        .controller('ContentHomeCtrl', ['$scope', 'Modals', 'RankOfLastItem', 'STATUS_CODE', 'TAG_NAMES', 'MESSAGES', 'DataStore', 'Location', '$timeout',
+            function ($scope, Modals, RankOfLastItem, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, Location, $timeout) {
                 console.log('inside content home controller ----------------->');
                 var ContentHome = this;
                 var tmrDelay = null;
@@ -14,11 +14,14 @@
                 ContentHome.data = {
                     "content": {
                         "title": "",
-                        "defaultSortType": ""
+                        "rankOfLastItem": 0
                     },
                     "design": {
                         "bgImage": ""
                     }
+                };
+                ContentHome.searchOptions = {
+                    sort: {"data.rank": 1}
                 };
 
                 ContentHome.masterData = {};
@@ -27,11 +30,53 @@
                     "Manually", "Item Name A-Z", "Item Name Z-A", "Newest First", "Oldest First"
                 ];
 
+                RankOfLastItem.setRank(ContentHome.data.content.rankOfLastItem || 0);
+
                 ContentHome.itemsSortableOptions = {
                     handle: '> .cursor-grab',
-                    stop: function (event, ui) {
-                        console.log("+++++++++++++5",ContentHome.items)
-                        //ContentHome.saveData(ContentHome.items, TAG_NAMES.TIMER_ITEMS);
+                    stop: function (e, ui) {
+                        console.log('Dragged called------------------------------------------', e, ui, 'stop');
+                        var endIndex = ui.item.sortable.dropindex,
+                            maxRank = 0,
+                            draggedItem = ContentHome.items[endIndex];
+
+                        if (draggedItem) {
+                            console.log('Dragged--------------------------------------------------------------', draggedItem);
+                            var prev = ContentHome.items[endIndex - 1],
+                                next = ContentHome.items[endIndex + 1];
+                            var isRankChanged = false;
+                            if (next) {
+                                if (prev) {
+                                    draggedItem.data.data.rank = ((prev.data.data.rank || 0) + (next.data.data.rank || 0)) / 2;
+                                    isRankChanged = true;
+                                } else {
+                                    draggedItem.data.data.rank = (next.data.data.rank || 0) / 2;
+                                    isRankChanged = true;
+                                }
+                            } else {
+                                if (prev) {
+                                    draggedItem.data.data.rank = (((prev.data.data.rank || 0) * 2) + 10) / 2;
+                                    maxRank = draggedItem.data.data.rank;
+                                    isRankChanged = true;
+                                }
+                            }
+                            if (isRankChanged) {
+                                var success = function (response) {
+                                    console.log('Updated rank of the item-------------------', draggedItem);
+                                    if (ContentHome.data.content.rankOfLastItem < maxRank) {
+                                        ContentHome.data.content.rankOfLastItem = maxRank;
+                                        RankOfLastItem.setRank(maxRank);
+                                    }
+                                    buildfire.messaging.sendMessageToWidget({
+                                        type: 'ArrangeItems'
+                                    });
+                                };
+                                var error = function (err) {
+                                    console.error('Error during updating rank');
+                                };
+                                DataStore.update(draggedItem.id, draggedItem.data, TAG_NAMES.TIMER_ITEMS).then(success, error);
+                            }
+                        }
                     }
                 };
 
@@ -45,12 +90,6 @@
                 ContentHome.isUnchanged = function (data) {
                     return angular.equals(data, ContentHome.masterData);
                 };
-
-                /*Saved the sorting preference start */
-                ContentHome.saveDefaultSortPreference = function (sortType) {
-                    ContentHome.data.content.defaultSortType = sortType;
-                };
-                /*Saved the sorting preference start end */
 
                 /*INIT CALL START*/
                 /*Init method call, it will bring all the pre saved data*/
@@ -73,7 +112,7 @@
 
                     ContentHome.successCallback = function (result) {
                         console.info('init success result:', result);
-                        console.log("+++++++++++++7",result)
+                        console.log("+++++++++++++7", result);
                         if (result && result.length > 0) {
                             ContentHome.items = result;
                         }
@@ -83,7 +122,7 @@
                             console.error('Error while getting data', err);
                         }
                     };
-                    DataStore.search({}, TAG_NAMES.TIMER_ITEMS).then(ContentHome.successCallback, ContentHome.errorCallback);
+                    DataStore.search(ContentHome.searchOptions, TAG_NAMES.TIMER_ITEMS).then(ContentHome.successCallback, ContentHome.errorCallback);
                 };
                 ContentHome.init();
                 /*INIT CALL END*/
@@ -121,11 +160,13 @@
                     if (newObj == undefined)
                         return;
                     else {
+//                        newObj.content.rankOfLastItem = newObj.content.rankOfLastItem || 0;
                         DataStore.save(newObj, tag).then(ContentHome.success, ContentHome.error);
                     }
                 };
 
                 ContentHome.saveDataWithDelay = function (newObj) {
+                    console.log('newObj is LLLLLLLLLLLLLLLLLLLLL', newObj);
                     if (newObj) {
                         if (ContentHome.isUnchanged(newObj)) {
                             return;
@@ -139,6 +180,7 @@
                     } else
                         return;
                 };
+
                 $scope.$watch(function () {
                     return ContentHome.data;
                 }, ContentHome.saveDataWithDelay, true);
