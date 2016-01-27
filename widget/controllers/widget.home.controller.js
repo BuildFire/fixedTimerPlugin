@@ -336,6 +336,8 @@
                         WidgetHome.description = data.description;
                         WidgetHome.counterSetTime = WidgetHome.covertToMS(data.timer);
                         WidgetHome.counter = WidgetHome.covertToMS(data.timer);
+                        WidgetHome.timerRunning = "stop";
+                        WidgetHome.isPlay = false;
                     }
                 };
                 /**
