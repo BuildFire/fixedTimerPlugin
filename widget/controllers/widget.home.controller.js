@@ -59,6 +59,7 @@
                             WidgetHome.counter = Math.abs(actualTimerTime);
                             if (actualTimerTime <= 0) {
                                 WidgetHome.isPlay = true;
+                                WidgetHome.playTrack();
                                 WidgetHome.timerRunning = '';
                                 WidgetHome.isCounterNegative = true;
                             }
@@ -111,6 +112,7 @@
 
                 WidgetHome.silenceReset = function () {
                     WidgetHome.isPlay = false;
+                    WidgetHome.pauseTrack();
                     WidgetHome.stop();
                     WidgetHome.timerRunning = "stop";
                     WidgetHome.isCounterNegative = false;
@@ -130,6 +132,7 @@
                     localStorage.setItem('timerObject', JSON.stringify(localStorageData));
                     WidgetHome.timerRunning = "pause";
                     WidgetHome.isPlay = false;
+                    WidgetHome.pauseTrack();
                     if (WidgetHome.isCounterNegative) {
                         $timeout.cancel(WidgetHome.stoppedPlus);
                         $timeout.cancel(WidgetHome.stopped);
@@ -191,6 +194,40 @@
                     $rootScope.deviceWidth = window.innerWidth;
                     $rootScope.backgroundImage = "";
 
+
+
+                    var audioPlayer = Buildfire.services.media.audioPlayer;
+                    audioPlayer.onEvent(function (e) {
+                        console.log('Audio Player On Event callback Method------------------', e);
+                        if (e.event == "timeUpdate") {
+                            WidgetHome.currentTime = e.data.currentTime;
+                            WidgetHome.duration = e.data.duration;
+                            $scope.$apply();
+                        }
+                        else if (e.event == "audioEnded") {
+                            WidgetHome.playing = false;
+                            $scope.$apply();
+                        }
+                        else if (e.event == "pause") {
+                            WidgetHome.playing = false;
+                            $scope.$apply();
+                        }
+                    });
+
+                    /**
+                     * Player related method and variables
+                     */
+                    WidgetHome.playTrack = function () {
+                            audioPlayer.play({url: '../plugins/fixedTimerPlugin/widget/assets/sound/rt-5OClock_sm.mp3'});
+                    };
+
+                    WidgetHome.pauseTrack = function () {
+                       audioPlayer.setTime(WidgetHome.duration);
+                    };
+                    if(!WidgetHome.isPlay) {
+                        WidgetHome.pauseTrack();
+                    }
+
                     var success = function (result) {
                             WidgetHome.data = result.data;
                             if (!WidgetHome.data.content)
@@ -233,6 +270,7 @@
                             if (actualTimerTime <= 0) {
                                 WidgetHome.timerRunning = "";
                                 WidgetHome.isPlay = true;
+                                WidgetHome.playTrack();
                                 WidgetHome.countdownPlus();
                             }
                             else {
@@ -350,6 +388,7 @@
                         WidgetHome.counter = WidgetHome.covertToMS(data.timer);
                         WidgetHome.timerRunning = "stop";
                         WidgetHome.isPlay = false;
+                        WidgetHome.pauseTrack();
                     }
                 };
                 /**
