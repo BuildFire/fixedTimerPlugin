@@ -48,7 +48,8 @@
                 }
 
                 /*On click button done it redirects to home*/
-                ContentItem.done = function (newObj) {
+                ContentItem.done = function (event, newObj) {
+                    event.preventDefault();
                     if (newObj && newObj.id) {
                         ContentItem.updateItemData(newObj.id, ContentItem.item, TAG_NAMES.TIMER_ITEMS);
                     }
