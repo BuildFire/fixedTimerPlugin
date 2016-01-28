@@ -11,7 +11,7 @@
             <span>Item Title</span>
         </div>
         <div class="main col-md-9 pull-right">
-            <input type="text" class="form-control" placeholder="Main Title" ng-model="ContentItem.item.data.title">
+            <input type="text" class="form-control" placeholder="Main Title" ng-model="ContentItem.item.data.title" required>
         </div>
     </div>
     <hr class="none">
@@ -38,7 +38,7 @@
                 <div class="col-xs-5 pull-left padding-zero">
                     <input type="number" min="0" max="23"
                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control"
-                           placeholder="12" ng-model="ContentItem.item.data.timer.hrs">
+                           placeholder="12" ng-model="ContentItem.item.data.timer.hrs" required>
                 </div>
                 <div class="col-xs-5 pull-left margin-top-five">
                     <span>Hours</span>
@@ -48,7 +48,7 @@
                 <div class="col-xs-5 pull-left padding-zero">
                     <input type="number" min="0" max="59"
                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control"
-                           placeholder="00" ng-model="ContentItem.item.data.timer.min">
+                           placeholder="00" ng-model="ContentItem.item.data.timer.min" required>
                 </div>
                 <div class="col-xs-5 pull-left margin-top-five">
                     <span>Minutes</span>
@@ -58,7 +58,7 @@
                 <div class="col-xs-5 pull-left padding-zero">
                     <input type="number" min="0" max="59"
                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control"
-                           placeholder="00" ng-model="ContentItem.item.data.timer.sec">
+                           placeholder="00" ng-model="ContentItem.item.data.timer.sec" required>
                 </div>
                 <div class="col-xs-5 pull-left margin-top-five">
                     <span>Seconds</span>
