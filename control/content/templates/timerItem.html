@@ -8,7 +8,7 @@
 <form ng-submit="ContentItem.done($event, ContentItem.item)">
     <div class="item clearfix row">
         <div class="labels col-md-3 padding-right-zero pull-left">
-            <span>Item Title</span>
+            <span>Item Title <span class ="red">*</span></span>
         </div>
         <div class="main col-md-9 pull-right">
             <input type="text" class="form-control" placeholder="Main Title" ng-model="ContentItem.item.data.title" required>
@@ -31,7 +31,7 @@
     <hr class="none">
     <div class="item clearfix row">
         <div class="labels col-md-3 padding-right-zero pull-left">
-            <span>Timer</span>
+            <span>Timer <span class ="red">*</span></span>
         </div>
         <div class="main col-md-9 pull-right">
             <div class="col-xs-4 pull-left padding-zero">
