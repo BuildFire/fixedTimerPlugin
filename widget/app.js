@@ -7,17 +7,22 @@
                 .when('/', {
                     templateUrl: 'templates/home.html',
                     controllerAs: 'WidgetHome',
-                    controller: 'WidgetHomeCtrl'
+                    controller: 'WidgetHomeCtrl',
+                    resolve: {
+                        context: function (Context) {
+                            return Context.getContext();
+                        }
+                    }
                 })
                 .otherwise('/');
-        }]).filter('secondsToDateTime', [function() {
-            return function(seconds) {
+        }]).filter('secondsToDateTime', [function () {
+            return function (seconds) {
                 return new Date(1970, 0, 1).setSeconds(seconds);
             };
         }]).run([ '$rootScope',
             function ($rootScope) {
                 buildfire.messaging.onReceivedMessage = function (msg) {
-                    console.log('============ inside on received message app.js widget',msg);
+                    console.log('============ inside on received message app.js widget', msg);
                     switch (msg.type) {
                         case 'AddNewItem':
                             $rootScope.$broadcast("TIMER_ADDED", msg);
