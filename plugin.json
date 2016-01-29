@@ -1,8 +1,9 @@
 {
-  "author":"BuildFire"
-,"pluginName":"Fixed Timer"
-,"pluginDescription":"A plugin that creates a timer on how much exposure you should be exposed to."
-,"supportEmail":"[Your support Email]"
+ "author":"BuildFire"
+,"pluginName":"Timer"
+,"pluginDescription":"With the timer plugin, you can create preset timers for a variety of items."
+,"supportEmail":"support@buildfire.com"
+,"pluginIcon": "icon.png"
 ,"control":{
   "content":{
     "enabled":true

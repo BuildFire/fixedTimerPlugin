@@ -3,11 +3,11 @@
 (function (angular) {
     angular
         .module('fixedTimerPluginWidget')
-        .controller('WidgetHomeCtrl', ['$scope', '$rootScope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce', '$timeout',
-            function ($scope, $rootScope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce, $timeout) {
+        .controller('WidgetHomeCtrl', ['$scope', '$rootScope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce', '$timeout', 'context',
+            function ($scope, $rootScope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce, $timeout, context) {
                 var WidgetHome = this;
                 WidgetHome.data = null;
-                WidgetHome.instanceId = null;
+                WidgetHome.instanceId = context && context.instanceId;
                 WidgetHome.busy = false;
                 WidgetHome.allItems = [];
                 WidgetHome.isCounterNegative = false;
@@ -198,13 +198,7 @@
                             if (!WidgetHome.data.design)
                                 WidgetHome.data.design = {};
                             $rootScope.backgroundImage = WidgetHome.data.design.backgroundImage ? WidgetHome.data.design.backgroundImage : "";
-                            Buildfire.getContext(function (err, data) {
-                                if (data) {
-                                    console.log('get context data is:::::::::::::::::', data);
-                                    WidgetHome.instanceId = data.instanceId;
-                                }
-                                updateTimer();
-                            });
+                            updateTimer();
                         }
                         , error = function (err) {
                             if (err && err.code !== STATUS_CODE.NOT_FOUND) {
