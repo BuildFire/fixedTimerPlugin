@@ -57,7 +57,8 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                 WidgetHome = $injector.get('$controller')('WidgetHomeCtrl', {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
-                    Buildfire: Buildfire
+                    Buildfire: Buildfire,
+                    context:{instanceId:'instanceId'}
                 });
                 q = $q;
                 WidgetHome.allItems = [{data: {data: {title:'Item1', description: 'Item1 Description', timer:{hrs:'10', min: '2', sec: '2'}}}}];
@@ -198,7 +199,8 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                 WidgetHome = $injector.get('$controller')('WidgetHomeCtrl', {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
-                    Buildfire: Buildfire
+                    Buildfire: Buildfire,
+                    context:{instanceId:'instanceId'}
                 });
                 q = $q;
             });
@@ -261,7 +263,8 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
                     Buildfire: Buildfire,
-                    $rootScope : $rootScope
+                    $rootScope : $rootScope,
+                    context:{instanceId:'instanceId'}
                 });
                 q = $q;
             });

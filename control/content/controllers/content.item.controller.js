@@ -48,7 +48,8 @@
                 }
 
                 /*On click button done it redirects to home*/
-                ContentItem.done = function (newObj) {
+                ContentItem.done = function (event, newObj) {
+                    event.preventDefault();
                     if (newObj && newObj.id) {
                         ContentItem.updateItemData(newObj.id, ContentItem.item, TAG_NAMES.TIMER_ITEMS);
                     }
@@ -153,7 +154,7 @@
                     ContentItem.isUpdating = false;
 //                    ContentItem.unchangedData = angular.equals(_data, ContentItem.item);
                     ContentItem.isItemValid = isValidItem(ContentItem.item.data);
-                    if (!ContentItem.isUpdating && !ContentItem.isUnchanged(ContentItem.item) && ContentItem.isItemValid && ContentItem.item.data.title && ContentItem.item.data.timer) {
+                    if (!ContentItem.isUpdating && !ContentItem.isUnchanged(ContentItem.item) && ContentItem.isItemValid && ContentItem.item.data.title && ContentItem.item.data.timer && ContentItem.item.data.timer.hrs && ContentItem.item.data.timer.min && ContentItem.item.data.timer.sec) {
                         tmrDelayForPeoples = setTimeout(function () {
                             console.log("AAAAAAAAAAAAA", newObj);
                             if (!ContentItem.isNewItemInserted && !newObj.id) {
