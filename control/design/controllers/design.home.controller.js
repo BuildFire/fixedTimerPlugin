@@ -52,15 +52,25 @@
                     }
                 };
                 init();
+
+                /*watch the change event and update in database*/
                 $scope.$watch(function () {
                     return DesignHome.itemInfo;
-                }, function (newObj) {
-                    if (newObj)
+                }, function (oldObj,newObj) {
+
+                    if (oldObj != newObj && newObj) {
+                        console.log("Updated Object:", newObj, oldObj);
                         Buildfire.datastore.save(DesignHome.itemInfo, TAG_NAMES.TIMER_INFO, function (err, data) {
                             if (err) {
-                                console.log("Error while saving data");
+                                //return DesignHome.data = angular.copy(DesignHomeMaster);
                             }
+                            else if (data) {
+                                //return DesignHomeMaster = data.obj;
+                                console.log("Updated Object:", newObj);
+                            }
+                            $scope.$digest();
                         });
+                    }
                 }, true);
             }]);
 })(window.angular);
