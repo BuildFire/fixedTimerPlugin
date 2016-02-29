@@ -24,8 +24,7 @@
                     sort: {"data.rank": 1}
                 };
 
-                ContentHome.masterData = {};
-
+                ContentHome.masterData = angular.copy(ContentHome.data);
                 ContentHome.sortTypeData = [
                     "Manually", "Item Name A-Z", "Item Name Z-A", "Newest First", "Oldest First"
                 ];
@@ -85,8 +84,6 @@
                     ContentHome.masterData = angular.copy(data);
                 };
 
-                ContentHome.updateMasterItem(ContentHome.data);
-
                 ContentHome.isUnchanged = function (data) {
                     return angular.equals(data, ContentHome.masterData);
                 };
@@ -98,6 +95,8 @@
                         console.info('init success result:', result);
                         if (result) {
                             ContentHome.data = result.data;
+                            console.log("LLLLLLLLL 2")
+                            ContentHome.updateMasterItem(ContentHome.data);
                         }
                     };
                     ContentHome.error = function (err) {
@@ -166,7 +165,8 @@
                 };
 
                 ContentHome.saveDataWithDelay = function (newObj) {
-                    console.log('newObj is LLLLLLLLLLLLLLLLLLLLL', newObj);
+                    console.log('newObj is LLLLLLLLLLLLLLLLLLLLL', ContentHome.isUnchanged(newObj), newObj);
+
                     if (newObj) {
                         if (ContentHome.isUnchanged(newObj)) {
                             return;
