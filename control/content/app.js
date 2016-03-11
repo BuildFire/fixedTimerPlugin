@@ -22,4 +22,12 @@
                 })
                 .otherwise('/');
         }])
+        .run(['Location','Buildfire', function (Location,Buildfire) {
+            // Handler to receive message from widget
+            Buildfire.history.onPop(function(data, err){
+                if(data && data.label!='Item')
+                    Location.goToHome();
+                console.log('Buildfire.history.onPop called', data, err);
+            });
+        }])
 })(window.angular,window.buildfire);

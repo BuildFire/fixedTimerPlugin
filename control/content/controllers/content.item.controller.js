@@ -6,6 +6,10 @@
         .controller('ContentItemCtrl', ['$scope', '$routeParams', 'RankOfLastItem', 'STATUS_CODE', 'TAG_NAMES', 'MESSAGES', 'DataStore', 'Location', '$timeout',
             function ($scope, $routeParams, RankOfLastItem, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, Location, $timeout) {
                 var ContentItem = this;
+                /**
+                 * Breadcrumbs  related implementation
+                 */
+                buildfire.history.push('Item', {id: 'itemId'});
                 var _rankOfLastItem = RankOfLastItem.getRank();
                 ContentItem.isUpdating = false;
                 ContentItem.isNewItemInserted = false;
@@ -53,6 +57,7 @@
                     if (newObj && newObj.id) {
                         ContentItem.updateItemData(newObj.id, ContentItem.item, TAG_NAMES.TIMER_ITEMS);
                     }
+                    buildfire.history.pop();
                 };
 
                 ContentItem.updateItemData = function (id, data, tagName) {

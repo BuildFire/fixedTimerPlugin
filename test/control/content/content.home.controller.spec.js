@@ -37,6 +37,15 @@ describe('Unit : fixedTimerPlugin content.home.controller.js', function () {
                         callback(null, 'Success');
                     }
                 });
+                this.history = {
+                    push: function (label, id) {
+                    },
+                    onPop: function (data) {
+                    },
+                    pop: function () {
+
+                    }
+                };
             });
         }));
         beforeEach(inject(function (_$rootScope_, _DataStore_, _Buildfire_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_) {
