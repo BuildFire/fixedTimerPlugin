@@ -45,6 +45,15 @@ describe('Unit : fixedTimerPlugin content.item.controller.js DataStore.getById s
                     console.log('******************** inside update', _id, _tagName);
                     callback('Error', null);
                 });
+                this.history = {
+                    push: function (label, id) {
+                    },
+                    onPop: function (data) {
+                    },
+                    pop: function () {
+
+                    }
+                };
             });
         }));
         beforeEach(inject(function (_$rootScope_, _$routeParams_, _DataStore_, _Buildfire_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_) {
@@ -121,6 +130,15 @@ describe('Unit : fixedTimerPlugin content.item.controller.js DataStore.getById e
                     console.log('******************** inside getById', _id, _tagName);
                     callback('Error', null);
                 });
+                this.history = {
+                    push: function (label, id) {
+                    },
+                    onPop: function (data) {
+                    },
+                    pop: function () {
+
+                    }
+                };
             });
         }));
         beforeEach(inject(function (_$rootScope_, _$routeParams_, _DataStore_, _Buildfire_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_) {
