@@ -13,7 +13,7 @@
                 buildfire.history.get('pluginBreadcrumbsOnly', function (err, result) {
                     if(result && result.length) {
                         result.forEach(function(breadCrumb) {
-                            if(breadCrumb.label == 'AllItems') {
+                            if(breadCrumb.label == 'Item') {
                                 breadCrumbFlag = false;
                             }
                         });
