@@ -6,10 +6,22 @@
         .controller('ContentItemCtrl', ['$scope', '$routeParams', 'RankOfLastItem', 'STATUS_CODE', 'TAG_NAMES', 'MESSAGES', 'DataStore', 'Location', '$timeout',
             function ($scope, $routeParams, RankOfLastItem, STATUS_CODE, TAG_NAMES, MESSAGES, DataStore, Location, $timeout) {
                 var ContentItem = this;
+                var breadCrumbFlag = true;
                 /**
                  * Breadcrumbs  related implementation
                  */
-                buildfire.history.push('Item', {id: 'itemId'});
+                buildfire.history.get('pluginBreadcrumbsOnly', function (err, result) {
+                    if(result && result.length) {
+                        result.forEach(function(breadCrumb) {
+                            if(breadCrumb.label == 'AllItems') {
+                                breadCrumbFlag = false;
+                            }
+                        });
+                    }
+                    if(breadCrumbFlag) {
+                        buildfire.history.push('Item', { elementToShow: 'Item' });
+                    }
+                });
                 var _rankOfLastItem = RankOfLastItem.getRank();
                 ContentItem.isUpdating = false;
                 ContentItem.isNewItemInserted = false;
