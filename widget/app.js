@@ -1,7 +1,7 @@
 'use strict';
 (function (angular) {
     angular
-        .module('fixedTimerPluginWidget', ['ngRoute', 'angular-owl-carousel', 'timerFilters'])
+        .module('fixedTimerPluginWidget', ['ngRoute', 'angular-owl-carousel', 'timerFilters', 'ngTouch'])
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
                 .when('/', {
