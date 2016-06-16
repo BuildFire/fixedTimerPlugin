@@ -9,7 +9,7 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
         beforeEach(module('fixedTimerPluginWidget', function ($provide) {
             $provide.service('Buildfire', function () {
                 this.spinner = jasmine.createSpyObj('spinner', ['show', 'hide']);
-                this.datastore = jasmine.createSpyObj('datastore', ['get', 'save', 'getById', 'search', 'insert', 'update', 'delete', 'onUpdate']);
+                this.datastore = jasmine.createSpyObj('datastore', ['get', 'save', 'getById', 'search', 'insert', 'update', 'delete', 'onUpdate', 'onRefresh']);
                 this.datastore.get.and.callFake(function (_tagName, callback) {
                     if (_tagName) {
                         callback(null, {data: {content:{}, design: {}}});
@@ -37,6 +37,9 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                     } else {
                         callback(null, 'Success');
                     }
+                });
+                this.datastore.onRefresh.and.callFake(function (callback) {
+                    callback();
                 });
             });
         }));
