@@ -3,8 +3,8 @@
 (function (angular) {
     angular
         .module('fixedTimerPluginWidget')
-        .controller('WidgetHomeCtrl', ['$scope', '$rootScope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce', '$timeout', 'context',
-            function ($scope, $rootScope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce, $timeout, context) {
+        .controller('WidgetHomeCtrl', ['$scope', '$rootScope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', '$sce', '$timeout', 'context', 'Location',
+            function ($scope, $rootScope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $sce, $timeout, context, Location) {
                 var WidgetHome = this;
                 WidgetHome.data = null;
                 WidgetHome.instanceId = context && context.instanceId;
@@ -346,6 +346,14 @@
                         WidgetHome.isPlay = false;
                     }
                 };
+
+                /**
+                 * Implementation of pull down to refresh
+                 */
+                var onRefresh = Buildfire.datastore.onRefresh(function () {
+                    Location.goToHome();
+                });
+
                 /**
                  * DataStore.onUpdate() is bound to listen any changes in datastore
                  */
