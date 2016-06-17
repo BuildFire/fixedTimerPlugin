@@ -1,7 +1,7 @@
 'use strict';
 (function (angular) {
     angular
-        .module('fixedTimerPluginWidget', ['ngRoute', 'angular-owl-carousel', 'timerFilters', 'ngTouch'])
+        .module('fixedTimerPluginWidget', ['ngRoute', 'angular-owl-carousel', 'ngTouch'])
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
                 .when('/', {
@@ -19,7 +19,43 @@
             return function (seconds) {
                 return new Date(1970, 0, 1).setSeconds(seconds);
             };
-        }]).run([ '$rootScope',
+        }])
+    /**
+     * A directive which is used handle background image for layouts.
+     */
+        .directive('backImg', ["$rootScope", function ($rootScope) {
+            return function (scope, element, attrs) {
+                attrs.$observe('backImg', function (value) {
+                    var img = '';
+                    if (value) {
+                        buildfire.imageLib.local.cropImage(value, {
+                            width: $rootScope.deviceWidth,
+                            height: $rootScope.deviceHeight
+                        }, function (err, imgUrl) {
+                            if(imgUrl) {
+                                img = imgUrl;
+                                element.attr("style", 'background:url(' + img + ') !important');
+                            } else {
+                                img = '';
+                                element.attr("style", 'background-color:white');
+                            }
+                            element.css({
+                                'background-size': 'cover'
+                            });
+                        });
+//                      img = $filter("cropImage")(value, $rootScope.deviceWidth, $rootScope.deviceHeight, true);
+                    }
+                    else {
+                        img = "";
+                        element.attr("style", 'background-color:white');
+                        element.css({
+                            'background-size': 'cover'
+                        });
+                    }
+                });
+            };
+        }])
+        .run([ '$rootScope',
             function ($rootScope) {
                 buildfire.messaging.onReceivedMessage = function (msg) {
                     console.log('============ inside on received message app.js widget', msg);
