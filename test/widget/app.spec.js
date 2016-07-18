@@ -1,4 +1,4 @@
-describe('Unit: fixedTimerPluginWidget widget app', function () {
+xdescribe('Unit: fixedTimerPluginWidget widget app', function () {
   describe('Unit: app routes', function () {
       beforeEach(module('fixedTimerPluginWidget'));
       var location, route, rootScope, compile, scope;
