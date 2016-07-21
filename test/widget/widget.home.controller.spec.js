@@ -1,9 +1,25 @@
 describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
     var $scope, WidgetHome, $rootScope, q, $controller, Buildfire, TAG_NAMES, $timeout;
+    var fakeWindow = {
+        location: {
+            href: ''
+        }
+    };
+    var Location = {
+        goToHome: function () {
+        },
+        goTo: function () {
+        }
+    };
     beforeEach(module('fixedTimerPluginWidget'));
 
 
-
+    /*// instantiate controller with mock window
+     beforeEach(inject(function($controller) {
+     $controller('YourCtrlName', {
+     $window: fakeWindow
+     });
+     }));*/
     describe('Unit : For success of DataStore.get and DataStore.search', function () {
         var DataStore, Buildfire, $rootScope, TAG_NAMES, STATUS_MESSAGES, STATUS_CODE, q;
         beforeEach(module('fixedTimerPluginWidget', function ($provide) {
@@ -12,7 +28,7 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                 this.datastore = jasmine.createSpyObj('datastore', ['get', 'save', 'getById', 'search', 'insert', 'update', 'delete', 'onUpdate', 'onRefresh']);
                 this.datastore.get.and.callFake(function (_tagName, callback) {
                     if (_tagName) {
-                        callback(null, {data: {content:{}, design: {}}});
+                        callback(null, {data: {content: {}, design: {}}});
                     } else {
                         callback('Error', null);
                     }
@@ -26,7 +42,9 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                 });
                 this.datastore.search.and.callFake(function (options, _tagName, callback) {
                     if (options && _tagName) {
-                        callback(null, [{data: {data: {title:'Item1', description: 'Item1 Description', timer:{hrs:'10', min: '2', sec: '2'}}}}]);
+                        callback(null, [
+                            {data: {data: {title: 'Item1', description: 'Item1 Description', timer: {hrs: '10', min: '2', sec: '2'}}}}
+                        ]);
                     } else {
                         callback('Error', null);
                     }
@@ -61,10 +79,14 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
                     Buildfire: Buildfire,
-                    context:{instanceId:'instanceId'}
+                    Location: Location,
+                    context: {instanceId: 'instanceId'},
+                    $window: fakeWindow
                 });
                 q = $q;
-                WidgetHome.allItems = [{data: {data: {title:'Item1', description: 'Item1 Description', timer:{hrs:'10', min: '2', sec: '2'}}}}];
+                WidgetHome.allItems = [
+                    {data: {data: {title: 'Item1', description: 'Item1 Description', timer: {hrs: '10', min: '2', sec: '2'}}}}
+                ];
             });
         });
 
@@ -87,7 +109,9 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
 
         describe('init calling', function () {
             it('DataStore.get should return success and actualTimerTime greater than zero', function () {
-                WidgetHome.allItems = [{data: {data: {title:'Item1', description: 'Item1 Description', timer:{hrs:'10', min: '2', sec: '2'}}}}];
+                WidgetHome.allItems = [
+                    {data: {data: {title: 'Item1', description: 'Item1 Description', timer: {hrs: '10', min: '2', sec: '2'}}}}
+                ];
                 var result = ''
                     , success = function (response) {
                         result = response;
@@ -102,11 +126,13 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
             });
 
             it('DataStore.get should return success and actualTimerTime less than zero', function () {
-                WidgetHome.allItems = [{data: {data: {title:'Item1', description: 'Item1 Description', timer:{hrs:'10', min: '2', sec: '2'}}}}];
+                WidgetHome.allItems = [
+                    {data: {data: {title: 'Item1', description: 'Item1 Description', timer: {hrs: '10', min: '2', sec: '2'}}}}
+                ];
                 var result = ''
                     , success = function (response) {
                         result = response;
-                        window.localStorage.setItem('timerObject', JSON.stringify({isPause: false, lastUpdatedTime: 1453483372281, timerTime:5}));
+                        window.localStorage.setItem('timerObject', JSON.stringify({isPause: false, lastUpdatedTime: 1453483372281, timerTime: 5}));
                     }
                     , error = function (err) {
                         result = err;
@@ -124,7 +150,7 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                     , error = function (err) {
                         result = err;
                     };
-                DataStore.search( {}, TAG_NAMES.TIMER_ITEMS, null).then(success, error);
+                DataStore.search({}, TAG_NAMES.TIMER_ITEMS, null).then(success, error);
                 $rootScope.$digest();
 //                expect(result).toEqual('Success');
             });
@@ -172,16 +198,21 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
         beforeEach(module('fixedTimerPluginWidget', function ($provide) {
             $provide.service('Buildfire', function () {
                 this.spinner = jasmine.createSpyObj('spinner', ['show', 'hide']);
-                this.datastore = jasmine.createSpyObj('datastore', ['get', 'save', 'getById', 'search', 'insert', 'update', 'delete', 'onUpdate']);
+                this.datastore = jasmine.createSpyObj('datastore', ['get', 'save', 'getById', 'search', 'insert', 'update', 'delete', 'onUpdate', 'onRefresh']);
                 this.datastore.get.and.callFake(function (_tagName, callback) {
-                        callback('Error', null);
+                    callback('Error', null);
                 });
                 this.datastore.search.and.callFake(function (options, _tagName, callback) {
                     if (options && _tagName) {
-                        callback(null, [{data: {data: {title:'Item1', description: 'Item1 Description', timer:{hrs:'10', min: '2', sec: '2'}}}}]);
+                        callback(null, [
+                            {data: {data: {title: 'Item1', description: 'Item1 Description', timer: {hrs: '10', min: '2', sec: '2'}}}}
+                        ]);
                     } else {
                         callback('Error', null);
                     }
+                });
+                this.datastore.onRefresh.and.callFake(function (callback) {
+                    callback();
                 });
             });
         }));
@@ -203,7 +234,9 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
                     Buildfire: Buildfire,
-                    context:{instanceId:'instanceId'}
+                    Location: Location,
+                    context: {instanceId: 'instanceId'},
+                    $window: fakeWindow
                 });
                 q = $q;
             });
@@ -231,7 +264,7 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                     , error = function (err) {
                         result = err;
                     };
-                DataStore.search( {}, TAG_NAMES.TIMER_ITEMS, null).then(success, error);
+                DataStore.search({}, TAG_NAMES.TIMER_ITEMS, null).then(success, error);
                 $rootScope.$digest();
 //                expect(result).toEqual('Success');
             });
@@ -242,9 +275,12 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
         beforeEach(module('fixedTimerPluginWidget', function ($provide) {
             $provide.service('Buildfire', function () {
                 this.spinner = jasmine.createSpyObj('spinner', ['show', 'hide']);
-                this.datastore = jasmine.createSpyObj('datastore', ['get', 'save', 'getById', 'search', 'insert', 'update', 'delete', 'onUpdate']);
+                this.datastore = jasmine.createSpyObj('datastore', ['get', 'save', 'getById', 'search', 'insert', 'update', 'delete', 'onUpdate', 'onRefresh']);
                 this.datastore.search.and.callFake(function (options, _tagName, callback) {
-                        callback('Error', null);
+                    callback('Error', null);
+                });
+                this.datastore.onRefresh.and.callFake(function (callback) {
+                    callback();
                 });
             });
         }));
@@ -266,8 +302,10 @@ describe('Unit : fixedTimerPlugin widget.home.controller.js', function () {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
                     Buildfire: Buildfire,
-                    $rootScope : $rootScope,
-                    context:{instanceId:'instanceId'}
+                    Location: Location,
+                    $rootScope: $rootScope,
+                    context: {instanceId: 'instanceId'},
+                    $window: fakeWindow
                 });
                 q = $q;
             });
