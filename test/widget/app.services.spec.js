@@ -161,5 +161,27 @@ describe('Unit: fixedTimerPluginWidget: Services', function () {
           expect(result).toEqual('Error');
       });
   })
+    describe('Unit : Location Factory', function () {
+        var Location, $location, $rootScope;
+        beforeEach(module('fixedTimerPluginWidget'));
+        beforeEach(inject(function (_$rootScope_, _$window_, _Location_) {
+            Location = _Location_;
+            $rootScope = _$rootScope_;
+            $window = _$window_;
+        }));
+        describe('Units should be defined', function () {
+            it('Location should exist and be an object', function () {
+                expect(typeof Location).toEqual('object');
+            });
+            it('Location.goTo should exist and be a function', function () {
+                expect(typeof Location.goTo).toEqual('function');
+            });
+            it('Location.goTo should exist and be a function', function () {
+                Location.goTo('#/item');
+                $rootScope.$digest();
+                expect($window.location.hash).toEqual('#/item');
+            });
+        });
+    });
 
 });
