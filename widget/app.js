@@ -39,11 +39,7 @@
                                 img = '';
                                 element.attr("style", 'background-color:white');
                             }
-                            element.css({
-                                'background-size': 'cover'
-                            });
                         });
-//                      img = $filter("cropImage")(value, $rootScope.deviceWidth, $rootScope.deviceHeight, true);
                     }
                     else {
                         img = "";
