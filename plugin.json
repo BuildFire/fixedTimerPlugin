@@ -1,7 +1,7 @@
 {
- "author":"BuildFire"
+ "author":"Buildfire"
 ,"pluginName":"Timer"
-,"pluginDescription":"With the timer plugin, you can create preset timers for a variety of items."
+,"pluginDescription":"Create preset timers for various items with the Timer plugin, offering easy countdowns and time tracking for efficient management and scheduling."
 ,"supportEmail":"support@buildfire.com"
 ,"pluginIcon": "icon.png"
 ,"control":{
